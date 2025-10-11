@@ -1,0 +1,435 @@
+/* GERAL E VARIÁVEIS */
+:root {
+    --primary-color: #FFA500; /* Laranja vibrante */
+    --secondary-color: #4A4A4A;
+    --dark-color: #1E1E1E;
+    --light-color: #F4F4F4;
+    --text-color: #333;
+    --font-header: 'Poppins', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 70px; /* Offset for fixed navbar */
+}
+
+body {
+    font-family: var(--font-body);
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: #FFFFFF;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-padding {
+    padding: 60px 0;
+}
+
+.section-title {
+    text-align: center;
+    font-family: var(--font-header);
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: var(--text-color);
+}
+
+.bg-light { background-color: var(--light-color); }
+.bg-dark { background-color: var(--dark-color); }
+.text-light { color: var(--light-color); }
+
+/* NAVEGAÇÃO */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(30, 30, 30, 0.9);
+    padding: 15px 0;
+    z-index: 1000;
+    transition: background-color 0.3s;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: var(--font-header);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--primary-color);
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    background-color: white;
+}
+
+
+/* SEÇÃO INÍCIO (HERO) */
+.hero {
+    height: 100vh;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://via.placeholder.com/1920x1080/333/fff?text=Kardume+Mural') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+}
+
+.hero-content h1 {
+    font-family: var(--font-header);
+    font-size: 4rem;
+    margin-bottom: 10px;
+}
+
+.hero-content h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 30px;
+}
+
+.btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 12px 25px;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #e69500;
+}
+
+/* SEÇÃO SOBRE COM CARROSSEL */
+.content-section {
+    display: flex;
+    align-items: flex-start; 
+    gap: 40px;
+}
+.text-content { 
+    flex: 1; 
+}
+.text-content ul { 
+    list-style: none; 
+    margin-top: 20px; 
+}
+.text-content li { 
+    margin-bottom: 10px; 
+    padding-left: 20px; 
+    position: relative; 
+}
+.text-content li::before {
+    content: '✔';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+}
+.carousel-viewport {
+    position: relative;
+    flex: 1;
+    max-width: 500px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+.about-carousel-slide {
+    display: flex;
+    width: 900%; 
+    transition: transform 0.5s ease-in-out; 
+}
+.clickable-carousel-img {
+    width: calc(100% / 9); 
+    flex-shrink: 0;
+    cursor: pointer; 
+}
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: background-color 0.3s;
+}
+.carousel-button:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+.carousel-button.prev {
+    left: 10px;
+}
+.carousel-button.next {
+    right: 10px;
+}
+
+
+/* SEÇÃO O QUE FAZEMOS (TABS) */
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+.tab-item {
+    padding: 10px 20px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+}
+.tab-item.active {
+    border-bottom-color: var(--primary-color);
+    color: var(--primary-color);
+}
+.tab-content {
+    display: none;
+    text-align: center;
+}
+.tab-content.active { 
+    display: block; 
+}
+
+
+/* SEÇÃO EQUIPE (CARROSSEL COM BOTÕES) */
+#equipe .container { 
+    margin-bottom: 0; 
+}
+.team-carousel-viewport {
+    width: 100%;
+    overflow: hidden;
+    padding: 40px 0;
+    position: relative; /* Adicionado para os botões */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+.team-carousel-slide {
+    display: flex;
+    width: calc(300px * 10); 
+    /* REMOVIDA a animação, será controlada por JS */
+    transition: transform 0.5s ease-in-out; 
+}
+.team-card {
+    width: 300px; 
+    flex-shrink: 0;
+    text-align: center;
+    padding: 0 15px;
+    cursor: pointer;
+}
+.team-card img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+
+/* ESTILOS DO MODAL (POP-UP) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s;
+}
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #aaa;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+#modal-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 4px solid var(--primary-color);
+}
+#modal-text h5 {
+    font-family: var(--font-header);
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+/* SEÇÃO RECONHECIMENTO (TIMELINE) */
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background-color: var(--primary-color);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -2px;
+}
+.timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    width: 50%;
+}
+.timeline-item:nth-child(odd) { left: 0; }
+.timeline-item:nth-child(even) { left: 50%; }
+.timeline-dot {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    border: 3px solid var(--primary-color);
+    border-radius: 50%;
+    top: 20px;
+    z-index: 1;
+}
+.timeline-item:nth-child(odd) .timeline-dot { right: -8px; }
+.timeline-item:nth-child(even) .timeline-dot { left: -8px; }
+.timeline-content {
+    padding: 20px;
+    background-color: var(--secondary-color);
+    border-radius: 6px;
+    color: #fff;
+}
+
+
+/* SEÇÃO MÍDIA */
+.media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+.media-card {
+    background-color: var(--light-color);
+    padding: 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.media-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+
+/* SEÇÃO CONTATO E RODAPÉ */
+.contact-subtitle {
+    text-align: center;
+    color: #ccc;
+    max-width: 600px;
+    margin: -20px auto 30px;
+}
+.contact-info {
+    text-align: center;
+    color: #fff;
+}
+.contact-info p { margin-bottom: 10px; }
+
+footer {
+    background-color: #111;
+    color: #aaa;
+    text-align: center;
+    padding: 20px 0;
+}
+
+
+/* RESPONSIVIDADE */
+@media(max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+    .hamburger.active .bar:nth-child(2) { opacity: 0; }
+    .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background-color: var(--dark-color);
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+    }
+    .nav-menu.active { left: 0; }
+    .nav-link { padding: 15px 0; }
+    .content-section { flex-direction: column; }
+    .timeline::after { left: 20px; }
+    .timeline-item { width: 100%; padding-left: 50px; padding-right: 15px; }
+    .timeline-item:nth-child(even) { left: 0; }
+    .timeline-dot { left: 12px; }
+}
