@@ -7,21 +7,23 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <header class="navbar">
         <div class="container">
-            <a href="#inicio" class="logo">KARDUME</a>
+            <a href="#inicio" class="logo">
+                KARDUME
+                <span class="logo-subtitle">arte & transformação social</span>
+            </a>
             <nav class="nav-menu">
                 <a href="#inicio" class="nav-link">Início</a>
                 <a href="#sobre" class="nav-link">Sobre Nós</a>
                 <a href="#fazemos" class="nav-link">O Que Fazemos</a>
                 <a href="#equipe" class="nav-link">Nossa Equipe</a>
                 <a href="#reconhecimento" class="nav-link">Reconhecimento</a>
-                <a href="#midia" class="nav-link">Na Mídia</a>
-                <a href="#contato" class="nav-link">Contato</a>
+                <a href="#contato" class="nav-link nav-button">Contato</a>
             </nav>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -34,9 +36,8 @@
     <main>
         <section id="inicio" class="hero">
             <div class="hero-content">
-                <h1>KARDUME</h1>
-                <h2>PEIXE QUE NADA SOZINHO MORRE, MAS O CARDUME SOBREVIVE.</h2>
-                <a href="#sobre" class="btn">Conheça Nossa História</a>
+                <h1>KAR<br>DUME</h1>
+                <h2>Peixe que nada sozinho morre, mas o cardume sobrevive.</h2>
             </div>
         </section>
 
@@ -66,6 +67,7 @@
                     </div>
                     <button class="carousel-button prev" id="about-prev">&#10094;</button>
                     <button class="carousel-button next" id="about-next">&#10095;</button>
+                    <div class="carousel-dots" id="about-dots"></div>
                 </div>
             </div>
         </section>
@@ -224,7 +226,7 @@
     <div id="team-modal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
-            <img id="modal-img" src="" alt="Foto do membro da equipe">
+            <img id="modal-img" src="" alt="Foto">
             <div id="modal-text"></div>
         </div>
     </div>
