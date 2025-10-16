@@ -141,9 +141,7 @@ body {
     color: var(--light-color);
     
     background-color: var(--dark-color);
-    background-image:  
-        radial-gradient(var(--pattern-color) 1.5px, transparent 1.5px), 
-        radial-gradient(var(--pattern-color) 1.5px, var(--dark-color) 1.5px);
+    background-image: url(src/background.png) ;
     background-size: 60px 60px;
     background-position: 0 0, 30px 30px;
 }
@@ -164,7 +162,7 @@ body {
     max-width: 40ch;
     margin: 0 auto;
     line-height: 1.4;
-    color: #ccc;
+    color: var(--dark-color);
 }
 
 .hero .btn {
@@ -201,7 +199,7 @@ body {
     max-width: 500px;
     overflow: hidden;
     border-radius: 8px;
-    user-select: none;
+
 }
 .about-carousel-slide {
     display: flex;
@@ -243,20 +241,21 @@ body {
 }
 .carousel-dots {
     text-align: center;
-    padding: 15px 0 5px;
+    padding: 20px 0 5px;
 }
 .dot {
     display: inline-block;
-    height: 12px;
-    width: 12px;
-    margin: 0 5px;
-    background-color: #ccc;
+    height: 12px; /* Tamanho médio */
+    width: 12px;  /* Tamanho médio */
+    margin: 0 8px; 
+    background-color: #d1d1d1; /* Cor para pontos inativos */
     border-radius: 50%;
     cursor: pointer;
-    transition: background-color 0.3s ;
+    transition: all 0.4s ease; 
 }
 .dot.active {
-    background-color: var(--primary-color);
+    background-color: #007BFF; /* Cor azul para o ponto ativo */
+    transform: scale(1.25); /* Levemente maior para destaque */
 }
 
 
