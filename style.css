@@ -199,7 +199,7 @@ body {
     max-width: 500px;
     overflow: hidden;
     border-radius: 8px;
-
+    user-select: none;
 }
 .about-carousel-slide {
     display: flex;
