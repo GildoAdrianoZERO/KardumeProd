@@ -5,7 +5,7 @@
     --dark-color: #1E1E1E;
     --light-color: #F4F4F4;
     --text-color-dark: #333;
-    --pattern-color: #111111; /* Cor da textura para o fundo escuro */
+    --pattern-color: #111111;
     --font-header: 'Poppins', sans-serif;
     --font-body: 'Roboto', sans-serif;
 }
@@ -64,7 +64,6 @@ body {
 
 .navbar .container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 
@@ -75,6 +74,7 @@ body {
     color: var(--primary-color);
     text-decoration: none;
     line-height: 1;
+    margin-right: auto;
 }
 
 .logo-subtitle {
@@ -87,7 +87,7 @@ body {
 
 .nav-menu {
     display: flex;
-    gap: 30px;
+    gap: 45px;
     align-items: center;
 }
 
@@ -116,6 +116,37 @@ body {
     color: var(--dark-color);
 }
 
+/* ESTILOS DO DROPDOWN */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 220px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1001;
+    border-radius: 4px;
+    padding: 5px 0;
+}
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.2s;
+    font-weight: 500;
+}
+.dropdown-content a:hover {
+    background-color: #ddd;
+    color: var(--primary-color);
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
 .hamburger {
     display: none;
     cursor: pointer;
@@ -130,7 +161,6 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
-
 /* SEÇÃO INÍCIO (HERO) */
 .hero {
     height: 100vh;
@@ -139,13 +169,11 @@ body {
     align-items: center;
     text-align: center;
     color: var(--light-color);
-    
     background-color: var(--dark-color);
     background-image: url(src/background.png) ;
     background-size: 60px 60px;
     background-position: 0 0, 30px 30px;
 }
-
 .hero-content h1 {
     font-family: var(--font-header);
     font-weight: 900; 
@@ -154,7 +182,6 @@ body {
     margin-bottom: 25px;
     color: var(--light-color);
 }
-
 .hero-content h2 {
     font-size: 1.5rem;
     font-family: var(--font-body);
@@ -165,99 +192,113 @@ body {
     color: var(--dark-color);
 }
 
-.hero .btn {
-    display: none;
-}
-
 /* SEÇÃO SOBRE COM CARROSSEL */
 .content-section {
     display: flex;
-    align-items: flex-start; 
-    gap: 40px;
+    align-items: center;
+    gap: 50px;
 }
 .text-content { 
     flex: 1; 
 }
-.text-content ul { 
-    list-style: none; 
-    margin-top: 20px; 
+
+/* LINK DO CARD DO CARROSSEL */
+.card-link {
+    text-decoration: none;
 }
-.text-content li { 
-    margin-bottom: 10px; 
-    padding-left: 20px; 
-    position: relative; 
-}
-.text-content li::before {
-    content: '✔';
-    position: absolute;
-    left: 0;
-    color: var(--primary-color);
-}
-.carousel-viewport {
+
+.carousel-viewport-modern {
+    flex: 1.2;
     position: relative;
-    flex: 1;
-    max-width: 500px;
+    height: 400px;
+    display: flex;
+    align-items: center;
     overflow: hidden;
-    border-radius: 8px;
-    user-select: none;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
 }
 .about-carousel-slide {
     display: flex;
-    width: 900%; 
-    transition: transform 0.5s ease-out;
+    align-items: center;
+    gap: 30px;
+    position: absolute;
+    left: 0;
+    transition: left 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     cursor: grab;
 }
 .about-carousel-slide.grabbing {
     cursor: grabbing;
 }
-.clickable-carousel-img {
-    width: calc(100% / 9); 
+.about-card {
+    width: 300px;
+    height: 350px;
     flex-shrink: 0;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transform: scale(0.9);
+    opacity: 0.7;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    user-select: none;
+}
+.about-card.active {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+.about-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     pointer-events: none;
+}
+.card-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    color: white;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
+}
+.card-text h5 {
+    font-family: var(--font-header);
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+.card-text p {
+    font-size: 0.9rem;
+    line-height: 1.4;
 }
 .carousel-button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(30, 30, 30, 0.7);
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 10px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
     z-index: 10;
     border-radius: 50%;
-    font-size: 1.2rem;
-    line-height: 1;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: background-color 0.3s;
 }
 .carousel-button:hover {
-    background-color: rgba(0,0,0,0.8);
+    background-color: var(--primary-color);
 }
 .carousel-button.prev {
-    left: 10px;
+    left: 25px;
 }
 .carousel-button.next {
-    right: 10px;
+    right: 25px;
 }
-.carousel-dots {
-    text-align: center;
-    padding: 20px 0 5px;
-}
-.dot {
-    display: inline-block;
-    height: 12px; /* Tamanho médio */
-    width: 12px;  /* Tamanho médio */
-    margin: 0 8px; 
-    background-color: #d1d1d1; /* Cor para pontos inativos */
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.4s ease; 
-}
-.dot.active {
-    background-color: #007BFF; /* Cor azul para o ponto ativo */
-    transform: scale(1.25); /* Levemente maior para destaque */
-}
-
 
 /* SEÇÃO O QUE FAZEMOS (TABS) */
 .tabs {
@@ -283,8 +324,7 @@ body {
     display: block; 
 }
 
-
-/* SEÇÃO EQUIPE (CARROSSEL COM BOTÕES) */
+/* SEÇÃO EQUIPE (CARROSSEL) */
 #equipe .container { 
     margin-bottom: 0; 
 }
@@ -298,8 +338,12 @@ body {
 }
 .team-carousel-slide {
     display: flex;
-    width: calc(300px * 10); 
+    width: calc(260px * 8); /* Ajustado para 8 cards (4 + 4 clones) */
     transition: transform 0.5s ease-in-out; 
+    cursor: grab;
+}
+.team-carousel-slide.grabbing {
+    cursor: grabbing;
 }
 .team-card {
     width: 300px; 
@@ -316,8 +360,7 @@ body {
     margin-bottom: 15px;
 }
 
-
-/* ESTILOS DO MODAL (POP-UP) */
+/* ESTILOS DO MODAL (POP-UP) DA EQUIPE */
 .modal {
     display: none;
     position: fixed;
@@ -333,8 +376,8 @@ body {
 }
 .modal-content {
     background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
+    padding: 40px;
+    border-radius: 12px;
     max-width: 500px;
     width: 90%;
     text-align: center;
@@ -343,35 +386,40 @@ body {
 }
 .close-button {
     position: absolute;
-    top: 10px;
-    right: 15px;
+    top: 15px;
+    right: 20px;
     color: #aaa;
     font-size: 30px;
     font-weight: bold;
     cursor: pointer;
+    transition: color 0.2s;
+}
+.close-button:hover {
+    color: #333;
 }
 #modal-img {
     width: 200px;
     height: 200px;
     border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 15px;
-    border: 4px solid var(--primary-color);
+    margin-bottom: 20px;
+    border: 5px solid var(--primary-color);
 }
 #modal-text h5 {
     font-family: var(--font-header);
-    font-size: 1.8rem;
+    font-size: 2rem;
     color: var(--text-color-dark);
     margin-bottom: 10px;
 }
 #modal-text p {
     color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
 }
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
 }
-
 
 /* SEÇÃO RECONHECIMENTO (TIMELINE) */
 .timeline {
@@ -388,55 +436,81 @@ body {
     bottom: 0;
     left: 50%;
     margin-left: -2px;
+    z-index: 0;
 }
 .timeline-item {
     padding: 10px 40px;
     position: relative;
     width: 50%;
 }
-.timeline-item:nth-child(odd) { left: 0; }
-.timeline-item:nth-child(even) { left: 50%; }
+.timeline-item:nth-child(odd) {
+    left: 0;
+    padding-right: 30px;
+    text-align: right;
+}
+.timeline-item:nth-child(even) {
+    left: 50%;
+    padding-left: 30px;
+    text-align: left;
+}
 .timeline-dot {
+    content: '';
     position: absolute;
     width: 16px;
     height: 16px;
     background-color: var(--light-color);
     border: 3px solid var(--primary-color);
     border-radius: 50%;
-    top: 20px;
+    top: 28px;
     z-index: 1;
 }
-.timeline-item:nth-child(odd) .timeline-dot { right: -8px; }
-.timeline-item:nth-child(even) .timeline-dot { left: -8px; }
+.timeline-item:nth-child(odd) .timeline-dot {
+    right: -8px;
+}
+.timeline-item:nth-child(even) .timeline-dot {
+    left: -8px;
+}
 .timeline-content {
     padding: 20px;
     background-color: var(--secondary-color);
     border-radius: 6px;
     color: var(--light-color);
 }
-
+.timeline-content h6 {
+    font-weight: 700;
+    color: var(--primary-color);
+}
 
 /* SEÇÃO MÍDIA */
 .media-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    gap: 25px;
 }
 .media-card {
     background-color: var(--light-color);
-    padding: 20px;
-    border-radius: 8px;
+    padding: 25px;
+    border-radius: 12px;
     text-decoration: none;
     color: var(--text-color-dark);
-    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .media-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+.media-card h5 {
+    font-family: var(--font-header);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
 }
 
-
 /* SEÇÃO CONTATO E RODAPÉ */
+#contato .container {
+    text-align: center;
+}
 .contact-subtitle {
     text-align: center;
     color: #ccc;
@@ -456,6 +530,105 @@ footer {
     padding: 20px 0;
 }
 
+/* ESTILOS PARA AS PÁGINAS DE EVENTO */
+.event-header {
+    height: 60vh;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+.event-header-overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.event-header h1 {
+    font-family: var(--font-header);
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+.event-header p {
+    font-size: 1.5rem;
+    max-width: 600px;
+}
+.event-content .container {
+    max-width: 900px;
+}
+.event-intro {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 40px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 30px;
+}
+.event-story h2 {
+    font-family: var(--font-header);
+    margin-bottom: 20px;
+}
+.event-story p {
+    margin-bottom: 20px;
+}
+.event-story blockquote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 20px;
+    margin: 30px 0;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: #555;
+}
+.gallery-title {
+    text-align: center;
+    font-family: var(--font-header);
+    margin-top: 60px;
+    margin-bottom: 30px;
+}
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+}
+.gallery img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.gallery img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
 
 /* RESPONSIVIDADE */
 @media(max-width: 768px) {
@@ -465,6 +638,7 @@ footer {
     .hamburger.active .bar:nth-child(2) { opacity: 0; }
     .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
     .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    
     .nav-menu {
         position: fixed;
         left: -100%;
@@ -477,9 +651,75 @@ footer {
     }
     .nav-menu.active { left: 0; }
     .nav-link { padding: 15px 0; }
+    .dropdown {
+        width: 100%;
+    }
+    .dropdown-content {
+        position: static;
+        display: none;
+        box-shadow: none;
+        background-color: #333;
+    }
+    .dropdown-content a {
+        color: #eee;
+        padding: 10px 0;
+    }
+
     .content-section { flex-direction: column; }
-    .timeline::after { left: 20px; }
-    .timeline-item { width: 100%; padding-left: 50px; padding-right: 15px; }
-    .timeline-item:nth-child(even) { left: 0; }
-    .timeline-dot { left: 12px; }
+
+    .carousel-viewport-modern {
+        flex: none;
+        width: 100%;
+        height: 350px;
+        margin-top: 40px;
+        -webkit-mask-image: none;
+        mask-image: none;
+    }
+    .about-card {
+        width: 80vw;
+        height: 300px;
+    }
+    .about-carousel-slide {
+        gap: 20px;
+    }
+    .carousel-button.prev {
+        left: 5px;
+    }
+    .carousel-button.next {
+        right: 5px;
+    }
+
+    .team-carousel-viewport {
+        -webkit-mask-image: none;
+        mask-image: none;
+    }
+    .team-card {
+        width: 260px;
+    }
+
+    .timeline::after { 
+        left: 20px; 
+    }
+    .timeline-item { 
+        width: 100%; 
+        padding-left: 50px; 
+        padding-right: 15px; 
+    }
+    .timeline-item:nth-child(odd), .timeline-item:nth-child(even) { 
+        left: 0; 
+        text-align: left;
+    }
+    .timeline-dot {
+        left: 12px;
+    }
+    .timeline-item:nth-child(odd) .timeline-dot, .timeline-item:nth-child(even) .timeline-dot {
+        left: 12px;
+    }
+
+    .event-header h1 {
+        font-size: 2.5rem;
+    }
+    .event-header p {
+        font-size: 1.1rem;
+    }
 }

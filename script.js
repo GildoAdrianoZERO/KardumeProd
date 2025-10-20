@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     
+    // As funções start/stopTeamAutoPlay precisam ser acessíveis globalmente
+    // para que o modal possa chamá-las. Vamos declará-las fora do escopo do carrossel.
+    let stopTeamAutoPlay = () => {};
+    let startTeamAutoPlay = () => {};
+
     // FUNCIONALIDADE DO MENU HAMBURGUER (MOBILE)
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
@@ -7,7 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
     });
-    document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', () => {
+    document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', (e) => {
+        // Se for um link de dropdown, não fechar o menu
+        if (e.target.closest('.dropdown')) return;
         hamburger.classList.remove('active');
         navMenu.classList.remove('active');
     }));
@@ -26,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ATIVAR LINK DO MENU CONFORME A ROLAGEM
-    const sections = document.querySelectorAll('main > section'); // Seletor mais específico
+    const sections = document.querySelectorAll('main > section');
     const navLinks = document.querySelectorAll('.nav-link');
     const observerOptions = { root: null, rootMargin: '0px', threshold: 0.6 };
     const sectionObserver = new IntersectionObserver((entries, observer) => {
@@ -34,145 +41,142 @@ document.addEventListener('DOMContentLoaded', function() {
             if (entry.isIntersecting) {
                 const id = entry.target.id;
                 navLinks.forEach(link => {
-                    link.classList.toggle('active', link.getAttribute('href').substring(1) === id);
+                    const href = link.getAttribute('href');
+                    if (href) {
+                        link.classList.toggle('active', href.substring(1) === id);
+                    }
                 });
             }
         });
     }, observerOptions);
     sections.forEach(section => {
-        sectionObserver.observe(section);
+        if (section) sectionObserver.observe(section);
     });
 
-    // --- LÓGICA DO CARROSSEL 'SOBRE NÓS' COM DRAG-AND-SWIPE E PONTOS ---
+    // --- LÓGICA DO CARROSSEL 'SOBRE NÓS' (VERSÃO MODERNA) ---
     const aboutViewport = document.getElementById('about-viewport');
-    const aboutSlide = document.getElementById('about-slide');
-    const aboutImages = document.querySelectorAll('.clickable-carousel-img');
-    const aboutPrevBtn = document.getElementById('about-prev');
-    const aboutNextBtn = document.getElementById('about-next');
-    const dotsContainer = document.getElementById('about-dots');
+    if (aboutViewport) { // Verifica se o carrossel existe na página
+        const aboutSlide = document.getElementById('about-slide');
+        const aboutCards = document.querySelectorAll('.about-card');
+        const aboutPrevBtn = document.getElementById('about-prev');
+        const aboutNextBtn = document.getElementById('about-next');
 
-    if (aboutSlide) { // Verifica se o carrossel existe na página
-        let aboutCurrentIndex = 0;
-        const aboutTotalSlides = aboutImages.length;
-        let isDragging = false, startPos = 0, currentTranslate = 0, prevTranslate = 0, animationID;
+        let currentIndex = 0;
+        const totalSlides = aboutCards.length;
+        let isDragging = false, startPos = 0, currentTranslate = 0, prevTranslate = 0;
 
-        // Criar os pontos de navegação
-        for (let i = 0; i < aboutTotalSlides; i++) {
-            const dot = document.createElement('button');
-            dot.classList.add('dot');
-            dotsContainer.appendChild(dot);
-            dot.addEventListener('click', () => {
-                aboutCurrentIndex = i;
-                setPositionByIndex();
+        function updateCarousel() {
+            if (!aboutCards.length) return;
+            const viewportWidth = aboutViewport.offsetWidth;
+            const cardWidth = aboutCards[0].offsetWidth;
+            const gap = parseInt(window.getComputedStyle(aboutSlide).gap) || 30;
+
+            const offset = (viewportWidth / 2) - (cardWidth / 2);
+            const newLeft = offset - currentIndex * (cardWidth + gap);
+            aboutSlide.style.left = `${newLeft}px`;
+
+            aboutCards.forEach((card, index) => {
+                card.classList.toggle('active', index === currentIndex);
             });
         }
-        const dots = dotsContainer.querySelectorAll('.dot');
-        updateDots();
 
-        function updateDots() {
-            dots.forEach(dot => dot.classList.remove('active'));
-            dots[aboutCurrentIndex].classList.add('active');
-        }
-
-        function setPositionByIndex() {
-            currentTranslate = aboutCurrentIndex * -aboutViewport.offsetWidth;
-            prevTranslate = currentTranslate;
-            setSliderPosition();
-            updateDots();
-        }
-
-        function setSliderPosition() {
-            aboutSlide.style.transform = `translateX(${currentTranslate}px)`;
-        }
-
-        function dragStart(event) {
-            isDragging = true;
-            startPos = getPositionX(event);
-            aboutSlide.classList.add('grabbing');
-            animationID = requestAnimationFrame(animation);
-            aboutSlide.style.transition = 'none';
-        }
-
-        function dragMove(event) {
-            if (isDragging) {
-                const currentPosition = getPositionX(event);
-                currentTranslate = prevTranslate + currentPosition - startPos;
+        function slideNext() {
+            if (currentIndex < totalSlides - 1) {
+                currentIndex++;
+                updateCarousel();
             }
         }
 
-        function dragEnd(event) {
-            cancelAnimationFrame(animationID);
-            isDragging = false;
-            const movedBy = currentTranslate - prevTranslate;
-
-            if (movedBy < -100 && aboutCurrentIndex < aboutTotalSlides - 1) aboutCurrentIndex++;
-            if (movedBy > 100 && aboutCurrentIndex > 0) aboutCurrentIndex--;
-            
-            if (Math.abs(movedBy) < 10) {
-                // Procura o elemento da imagem clicada
-                const clickedImg = event.target.closest('.clickable-carousel-img');
-                if (clickedImg) {
-                    openModal(clickedImg.dataset.imgSrc, clickedImg.dataset.name, clickedImg.dataset.desc);
-                }
+        function slidePrev() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
             }
-
-            setPositionByIndex();
-            aboutSlide.style.transition = 'transform 0.5s ease-out';
-            aboutSlide.classList.remove('grabbing');
         }
 
         function getPositionX(event) {
             return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
         }
 
-        function animation() {
-            setSliderPosition();
-            if(isDragging) requestAnimationFrame(animation);
+        function dragStart(event) {
+            isDragging = true;
+            startPos = getPositionX(event);
+            aboutSlide.classList.add('grabbing');
+            aboutSlide.style.transition = 'none';
+            prevTranslate = parseFloat(aboutSlide.style.left.replace('px', '')) || 0;
         }
 
-        aboutSlide.addEventListener('dragstart', (e) => e.preventDefault());
+        function dragMove(event) {
+            if (isDragging) {
+                const currentPosition = getPositionX(event);
+                currentTranslate = prevTranslate + currentPosition - startPos;
+                aboutSlide.style.left = `${currentTranslate}px`;
+            }
+        }
+
+        function dragEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            aboutSlide.classList.remove('grabbing');
+            aboutSlide.style.transition = 'left 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
+
+            const movedBy = (parseFloat(aboutSlide.style.left.replace('px', '')) || 0) - prevTranslate;
+
+            if (movedBy < -75 && currentIndex < totalSlides - 1) {
+                currentIndex++;
+            }
+            if (movedBy > 75 && currentIndex > 0) {
+                currentIndex--;
+            }
+            updateCarousel();
+        }
+
+        aboutNextBtn.addEventListener('click', slideNext);
+        aboutPrevBtn.addEventListener('click', slidePrev);
+
         aboutSlide.addEventListener('mousedown', dragStart);
-        aboutSlide.addEventListener('mouseup', dragEnd);
-        aboutSlide.addEventListener('mouseleave', dragEnd);
+        document.addEventListener('mouseup', dragEnd);
+        document.addEventListener('mouseleave', dragEnd);
+        document.addEventListener('mousemove', dragMove);
+
         aboutSlide.addEventListener('touchstart', dragStart, { passive: true });
-        aboutSlide.addEventListener('touchend', dragEnd);
-        aboutSlide.addEventListener('touchmove', dragMove, { passive: true });
+        document.addEventListener('touchend', dragEnd);
+        document.addEventListener('touchmove', dragMove, { passive: true });
 
-        aboutNextBtn.addEventListener('click', () => {
-            aboutCurrentIndex = (aboutCurrentIndex + 1) % aboutTotalSlides;
-            setPositionByIndex();
-        });
-        aboutPrevBtn.addEventListener('click', () => {
-            aboutCurrentIndex = (aboutCurrentIndex - 1 + aboutTotalSlides) % aboutTotalSlides;
-            setPositionByIndex();
-        });
+        window.addEventListener('resize', updateCarousel);
+        setTimeout(updateCarousel, 100); 
     }
-
 
     // --- LÓGICA DO CARROSSEL DA EQUIPE ---
     const teamViewport = document.querySelector('.team-carousel-viewport');
-    if(teamViewport) { // Verifica se o carrossel existe
+    if (teamViewport) {
         const teamSlide = document.getElementById('team-slide');
         const teamPrevBtn = document.getElementById('team-prev');
         const teamNextBtn = document.getElementById('team-next');
-        const originalTeamCards = document.querySelectorAll('.team-card').length / 2;
-        const cardWidth = 300;
+        const originalTeamCards = 4; // Agora temos 4 membros
+        const cardWidth = 260;
         let teamCurrentIndex = 0;
         let teamAutoPlayInterval;
 
+        // Atribuir as funções para as variáveis globais
+        stopTeamAutoPlay = () => clearInterval(teamAutoPlayInterval);
+        startTeamAutoPlay = () => {
+            stopTeamAutoPlay();
+            teamAutoPlayInterval = setInterval(handleNextClick, 5000);
+        };
+
+        let isDragging = false, startPos = 0, currentTranslate = 0, prevTranslate = 0, animationID;
+
         function moveToTeamSlide(index, withTransition = true) {
             if (!withTransition) teamSlide.style.transition = 'none';
-            teamSlide.style.transform = `translateX(-${index * cardWidth}px)`;
-            if (!withTransition) setTimeout(() => { teamSlide.style.transition = 'transform 0.5s ease-in-out'; }, 50);
-        }
-        
-        function startTeamAutoPlay() {
-            stopTeamAutoPlay();
-            teamAutoPlayInterval = setInterval(() => { handleNextClick(); }, 5000);
-        }
-
-        function stopTeamAutoPlay() {
-            clearInterval(teamAutoPlayInterval);
+            currentTranslate = -index * cardWidth;
+            teamSlide.style.transform = `translateX(${currentTranslate}px)`;
+            prevTranslate = currentTranslate;
+            if (!withTransition) {
+                setTimeout(() => {
+                    teamSlide.style.transition = 'transform 0.5s ease-in-out';
+                }, 50);
+            }
         }
 
         function handleNextClick() {
@@ -186,8 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        teamNextBtn.addEventListener('click', handleNextClick);
-        teamPrevBtn.addEventListener('click', () => {
+        function handlePrevClick() {
             if (teamCurrentIndex <= 0) {
                 teamCurrentIndex = originalTeamCards;
                 moveToTeamSlide(teamCurrentIndex, false);
@@ -196,28 +199,79 @@ document.addEventListener('DOMContentLoaded', function() {
                 teamCurrentIndex--;
                 moveToTeamSlide(teamCurrentIndex);
             }, 50);
-        });
+        }
+
+        function getPositionX(event) {
+            return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+        }
+
+        function dragStart(event) {
+            stopTeamAutoPlay();
+            isDragging = true;
+            startPos = getPositionX(event);
+            teamSlide.classList.add('grabbing');
+            animationID = requestAnimationFrame(animation);
+            teamSlide.style.transition = 'none';
+        }
+
+        function dragMove(event) {
+            if (isDragging) {
+                const currentPosition = getPositionX(event);
+                currentTranslate = prevTranslate + currentPosition - startPos;
+            }
+        }
+
+        function dragEnd() {
+            cancelAnimationFrame(animationID);
+            isDragging = false;
+            const movedBy = currentTranslate - prevTranslate;
+
+            if (movedBy < -100 && teamCurrentIndex < (originalTeamCards * 2) - 1) {
+                handleNextClick();
+            } else if (movedBy > 100 && teamCurrentIndex > 0) {
+                handlePrevClick();
+            } else {
+                moveToTeamSlide(teamCurrentIndex);
+            }
+            
+            teamSlide.style.transition = 'transform 0.5s ease-in-out';
+            teamSlide.classList.remove('grabbing');
+            startTeamAutoPlay();
+        }
+
+        function animation() {
+            teamSlide.style.transform = `translateX(${currentTranslate}px)`;
+            if (isDragging) requestAnimationFrame(animation);
+        }
+        
+        teamNextBtn.addEventListener('click', handleNextClick);
+        teamPrevBtn.addEventListener('click', handlePrevClick);
         
         teamViewport.addEventListener('mouseenter', stopTeamAutoPlay);
         teamViewport.addEventListener('mouseleave', startTeamAutoPlay);
-        teamViewport.addEventListener('click', (event) => {
-            if (event.target.closest('.team-card') || event.target.closest('.carousel-button')) return;
-            handleNextClick();
-        });
+
+        teamSlide.addEventListener('dragstart', (e) => e.preventDefault());
+        teamSlide.addEventListener('mousedown', dragStart);
+        document.addEventListener('mouseup', dragEnd);
+        document.addEventListener('mouseleave', dragEnd);
+        document.addEventListener('touchmove', dragMove, { passive: true });
         
+        teamSlide.addEventListener('touchstart', dragStart, { passive: true });
+        document.addEventListener('touchend', dragEnd);
+
         startTeamAutoPlay();
     }
 
-
     // --- LÓGICA DO MODAL (POP-UP) ---
     const modal = document.getElementById('team-modal');
-    if (modal) { // Verifica se o modal existe
+    if (modal) {
         const allTeamCards = document.querySelectorAll('.team-card');
         const modalImg = document.getElementById('modal-img');
         const modalText = document.getElementById('modal-text');
-        const closeButton = document.querySelector('.close-button');
+        const closeButton = modal.querySelector('.close-button');
 
         function openModal(imgSrc, name, desc) {
+            stopTeamAutoPlay();
             modalImg.src = imgSrc;
             modalText.innerHTML = `<h5>${name}</h5><p>${desc}</p>`;
             modal.style.display = 'flex';
@@ -225,15 +279,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function closeModal() {
             modal.style.display = 'none';
-            // Reinicia o auto-play da equipe apenas se a viewport existir
-            if(document.querySelector('.team-carousel-viewport')) {
-                startTeamAutoPlay();
-            }
+            startTeamAutoPlay();
         }
 
         allTeamCards.forEach(card => {
-            card.addEventListener('click', (e) => {
-                stopTeamAutoPlay();
+            card.addEventListener('click', () => {
                 openModal(card.dataset.imgSrc, card.dataset.name, card.dataset.desc);
             });
         });
