@@ -5,7 +5,6 @@
     --dark-color: #1E1E1E;
     --light-color: #F4F4F4;
     --text-color-dark: #333;
-    --pattern-color: #111111;
     --font-header: 'Poppins', sans-serif;
     --font-body: 'Roboto', sans-serif;
 }
@@ -35,13 +34,13 @@ body {
 }
 
 .section-padding {
-    padding: 60px 0;
+    padding: clamp(40px, 8vw, 60px) 0;
 }
 
 .section-title {
     text-align: center;
     font-family: var(--font-header);
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 5vw, 2.5rem);
     margin-bottom: 40px;
     color: var(--text-color-dark);
 }
@@ -49,6 +48,7 @@ body {
 .bg-light { background-color: var(--light-color); }
 .bg-dark { background-color: var(--dark-color); }
 .text-light { color: var(--light-color); }
+
 
 /* NAVEGAÇÃO */
 .navbar {
@@ -58,12 +58,14 @@ body {
     width: 100%;
     background-color: rgba(30, 30, 30, 0.8);
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     padding: 15px 0;
     z-index: 1000;
 }
 
 .navbar .container {
     display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -74,7 +76,6 @@ body {
     color: var(--primary-color);
     text-decoration: none;
     line-height: 1;
-    margin-right: auto;
 }
 
 .logo-subtitle {
@@ -87,7 +88,7 @@ body {
 
 .nav-menu {
     display: flex;
-    gap: 45px;
+    gap: 35px;
     align-items: center;
 }
 
@@ -98,7 +99,8 @@ body {
     transition: color 0.3s;
 }
 
-.nav-link:hover {
+.nav-link:hover,
+.nav-link.active {
     color: var(--primary-color);
 }
 
@@ -108,12 +110,13 @@ body {
     padding: 8px 20px;
     border-radius: 20px;
     font-weight: 700;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .nav-button:hover {
     background-color: #e69500;
     color: var(--dark-color);
+    transform: scale(1.05);
 }
 
 /* ESTILOS DO DROPDOWN */
@@ -147,6 +150,25 @@ body {
     display: block;
 }
 
+/* CÓDIGO NOVO: Seta para o item de menu Dropdown */
+.dropdown-toggle::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 8px;
+    vertical-align: 2px; /* Ajuste fino do alinhamento vertical */
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid currentColor; /* Herda a cor do texto do link (branco ou laranja) */
+    transition: transform 0.3s ease;
+}
+
+/* CÓDIGO NOVO: Gira a seta quando o dropdown está aberto (hover no container) */
+.dropdown:hover .dropdown-toggle::after {
+    transform: rotate(180deg);
+}
+
 .hamburger {
     display: none;
     cursor: pointer;
@@ -163,27 +185,28 @@ body {
 
 /* SEÇÃO INÍCIO (HERO) */
 .hero {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     color: var(--light-color);
     background-color: var(--dark-color);
-    background-image: url(src/background.png) ;
+    background-image: url(../src/background.png) ;
     background-size: 60px 60px;
     background-position: 0 0, 30px 30px;
+    padding: 20px;
 }
 .hero-content h1 {
     font-family: var(--font-header);
     font-weight: 900; 
-    font-size: 10rem; 
+    font-size: clamp(4rem, 12vw + 1rem, 10rem); 
     line-height: 0.9;
     margin-bottom: 25px;
     color: var(--light-color);
 }
 .hero-content h2 {
-    font-size: 1.5rem;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
     font-family: var(--font-body);
     font-weight: 400;
     max-width: 40ch;
@@ -191,6 +214,10 @@ body {
     line-height: 1.4;
     color: var(--dark-color);
 }
+
+/* ... (O restante do seu CSS continua aqui, sem alterações) ... */
+
+/* COLE O RESTANTE DO SEU CSS A PARTIR DAQUI, INCLUINDO A SEÇÃO DE RESPONSIVIDADE */
 
 /* SEÇÃO SOBRE COM CARROSSEL */
 .content-section {
@@ -202,7 +229,6 @@ body {
     flex: 1; 
 }
 
-/* LINK DO CARD DO CARROSSEL */
 .card-link {
     text-decoration: none;
 }
@@ -304,6 +330,8 @@ body {
 .tabs {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap; 
+    gap: 10px;
     margin-bottom: 30px;
 }
 .tab-item {
@@ -311,6 +339,7 @@ body {
     cursor: pointer;
     border-bottom: 3px solid transparent;
     transition: all 0.3s;
+    text-align: center;
 }
 .tab-item.active {
     border-bottom-color: var(--primary-color);
@@ -319,6 +348,8 @@ body {
 .tab-content {
     display: none;
     text-align: center;
+    max-width: 800px; 
+    margin: 0 auto;
 }
 .tab-content.active { 
     display: block; 
@@ -338,7 +369,7 @@ body {
 }
 .team-carousel-slide {
     display: flex;
-    width: calc(260px * 8); /* Ajustado para 8 cards (4 + 4 clones) */
+    width: calc(260px * 8); 
     transition: transform 0.5s ease-in-out; 
     cursor: grab;
 }
@@ -346,7 +377,7 @@ body {
     cursor: grabbing;
 }
 .team-card {
-    width: 300px; 
+    width: 260px;
     flex-shrink: 0;
     text-align: center;
     padding: 0 15px;
@@ -360,7 +391,7 @@ body {
     margin-bottom: 15px;
 }
 
-/* ESTILOS DO MODAL (POP-UP) DA EQUIPE */
+/* MODAL (POP-UP) DA EQUIPE */
 .modal {
     display: none;
     position: fixed;
@@ -373,13 +404,14 @@ body {
     justify-content: center;
     align-items: center;
     animation: fadeIn 0.3s;
+    padding: 15px;
 }
 .modal-content {
     background-color: #fff;
     padding: 40px;
     border-radius: 12px;
     max-width: 500px;
-    width: 90%;
+    width: 100%;
     text-align: center;
     position: relative;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
@@ -392,29 +424,17 @@ body {
     font-size: 30px;
     font-weight: bold;
     cursor: pointer;
-    transition: color 0.2s;
-}
-.close-button:hover {
-    color: #333;
 }
 #modal-img {
-    width: 200px;
-    height: 200px;
+    width: clamp(150px, 30vw, 200px); 
+    height: clamp(150px, 30vw, 200px);
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 20px;
     border: 5px solid var(--primary-color);
 }
 #modal-text h5 {
-    font-family: var(--font-header);
-    font-size: 2rem;
-    color: var(--text-color-dark);
-    margin-bottom: 10px;
-}
-#modal-text p {
-    color: #666;
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-size: clamp(1.5rem, 4vw, 2rem); 
 }
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.95); }
@@ -436,25 +456,16 @@ body {
     bottom: 0;
     left: 50%;
     margin-left: -2px;
-    z-index: 0;
 }
 .timeline-item {
     padding: 10px 40px;
     position: relative;
     width: 50%;
 }
-.timeline-item:nth-child(odd) {
-    left: 0;
-    padding-right: 30px;
-    text-align: right;
-}
-.timeline-item:nth-child(even) {
-    left: 50%;
-    padding-left: 30px;
-    text-align: left;
-}
+.timeline-item:nth-child(odd) { left: 0; }
+.timeline-item:nth-child(even) { left: 50%; }
+.timeline-item:nth-child(odd) { text-align: right; }
 .timeline-dot {
-    content: '';
     position: absolute;
     width: 16px;
     height: 16px;
@@ -464,12 +475,8 @@ body {
     top: 28px;
     z-index: 1;
 }
-.timeline-item:nth-child(odd) .timeline-dot {
-    right: -8px;
-}
-.timeline-item:nth-child(even) .timeline-dot {
-    left: -8px;
-}
+.timeline-item:nth-child(odd) .timeline-dot { right: -8px; }
+.timeline-item:nth-child(even) .timeline-dot { left: -8px; }
 .timeline-content {
     padding: 20px;
     background-color: var(--secondary-color);
@@ -484,7 +491,7 @@ body {
 /* SEÇÃO MÍDIA */
 .media-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
 }
 .media-card {
@@ -500,55 +507,32 @@ body {
     transform: translateY(-6px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
 }
-.media-card h5 {
-    font-family: var(--font-header);
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-}
 
 /* SEÇÃO CONTATO E RODAPÉ */
-#contato .container {
-    text-align: center;
-}
-.contact-subtitle {
-    text-align: center;
-    color: #ccc;
-    max-width: 600px;
-    margin: -20px auto 30px;
-}
-.contact-info {
-    text-align: center;
-    color: #fff;
-}
+#contato .container, footer .container { text-align: center; }
+.contact-subtitle { color: #ccc; max-width: 600px; margin: -20px auto 30px; }
+.contact-info { color: #fff; }
 .contact-info p { margin-bottom: 10px; }
+footer { background-color: #111; color: #aaa; padding: 20px 0; }
 
-footer {
-    background-color: #111;
-    color: #aaa;
-    text-align: center;
-    padding: 20px 0;
-}
-
+/* ======================================= */
 /* ESTILOS PARA AS PÁGINAS DE EVENTO */
+/* ======================================= */
 .event-header {
     height: 60vh;
     background-size: cover;
     background-position: center;
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     color: white;
+    position: relative;
 }
 .event-header-overlay {
     background-color: rgba(0, 0, 0, 0.6);
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -557,17 +541,15 @@ footer {
 }
 .event-header h1 {
     font-family: var(--font-header);
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 8vw, 4rem);
     font-weight: 900;
     margin-bottom: 10px;
 }
 .event-header p {
-    font-size: 1.5rem;
+    font-size: clamp(1rem, 4vw, 1.5rem);
     max-width: 600px;
 }
-.event-content .container {
-    max-width: 900px;
-}
+.event-content .container { max-width: 900px; }
 .event-intro {
     font-size: 1.1rem;
     line-height: 1.7;
@@ -575,13 +557,6 @@ footer {
     text-align: center;
     border-bottom: 1px solid #eee;
     padding-bottom: 30px;
-}
-.event-story h2 {
-    font-family: var(--font-header);
-    margin-bottom: 20px;
-}
-.event-story p {
-    margin-bottom: 20px;
 }
 .event-story blockquote {
     border-left: 4px solid var(--primary-color);
@@ -599,7 +574,7 @@ footer {
 }
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 15px;
 }
 .gallery img {
@@ -615,7 +590,7 @@ footer {
 }
 .video-container {
     position: relative;
-    padding-bottom: 56.25%;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
     height: 0;
     overflow: hidden;
     max-width: 100%;
@@ -630,10 +605,27 @@ footer {
     height: 100%;
 }
 
-/* RESPONSIVIDADE */
-@media(max-width: 768px) {
+/* ======================================= */
+/* RESPONSIVIDADE APRIMORADA */
+/* ======================================= */
+
+/* ---- Telas de Tablet (até 992px) ---- */
+@media (max-width: 992px) {
+    .content-section {
+        flex-direction: column;
+    }
+    .carousel-viewport-modern {
+        flex: none;
+        width: 100%;
+        margin-top: 40px;
+    }
+}
+
+/* ---- Telas de Tablet e Celulares Grandes (até 768px) ---- */
+@media (max-width: 768px) {
     .hamburger {
         display: block;
+        z-index: 1001;
     }
     .hamburger.active .bar:nth-child(2) { opacity: 0; }
     .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
@@ -642,36 +634,57 @@ footer {
     .nav-menu {
         position: fixed;
         left: -100%;
-        top: 70px;
+        top: 0;
         flex-direction: column;
+        justify-content: center;
         background-color: var(--dark-color);
         width: 100%;
+        height: 100vh;
         text-align: center;
-        transition: 0.3s;
+        transition: left 0.3s ease-in-out;
+        padding-top: 70px;
     }
-    .nav-menu.active { left: 0; }
-    .nav-link { padding: 15px 0; }
+    .nav-menu.active { 
+        left: 0; 
+    }
+    .nav-link { 
+        padding: 15px 0; 
+        font-size: 1.2rem;
+    }
     .dropdown {
         width: 100%;
     }
-    .dropdown-content {
-        position: static;
-        display: none;
-        box-shadow: none;
-        background-color: #333;
+   .dropdown-content {
+    position: static;
+    display: none;
+    box-shadow: none;
+    background-color: #333; 
+    border-radius: 0;
+    padding-left: 20px; 
+}
+
+.dropdown-content.show {
+    display: block;
+}
+
+    .dropdown:hover .dropdown-content {
+        display: block; 
     }
     .dropdown-content a {
         color: #eee;
-        padding: 10px 0;
+        padding: 12px 0;
+    }
+    
+    .nav-menu .nav-button {
+        padding: 12px 30px;
+        border-radius: 30px;
+        margin-top: 20px;
+        font-size: 1.2rem;
+        display: inline-block;
     }
 
-    .content-section { flex-direction: column; }
-
-    .carousel-viewport-modern {
-        flex: none;
-        width: 100%;
-        height: 350px;
-        margin-top: 40px;
+    .carousel-viewport-modern,
+    .team-carousel-viewport {
         -webkit-mask-image: none;
         mask-image: none;
     }
@@ -679,47 +692,49 @@ footer {
         width: 80vw;
         height: 300px;
     }
-    .about-carousel-slide {
-        gap: 20px;
-    }
-    .carousel-button.prev {
-        left: 5px;
-    }
-    .carousel-button.next {
-        right: 5px;
-    }
-
-    .team-carousel-viewport {
-        -webkit-mask-image: none;
-        mask-image: none;
-    }
-    .team-card {
-        width: 260px;
-    }
 
     .timeline::after { 
         left: 20px; 
     }
-    .timeline-item { 
+    .timeline-item,
+    .timeline-item:nth-child(even) { 
         width: 100%; 
         padding-left: 50px; 
         padding-right: 15px; 
-    }
-    .timeline-item:nth-child(odd), .timeline-item:nth-child(even) { 
-        left: 0; 
+        left: 0;
         text-align: left;
     }
-    .timeline-dot {
+    .timeline-dot,
+    .timeline-item:nth-child(odd) .timeline-dot,
+    .timeline-item:nth-child(even) .timeline-dot {
         left: 12px;
     }
-    .timeline-item:nth-child(odd) .timeline-dot, .timeline-item:nth-child(even) .timeline-dot {
-        left: 12px;
-    }
+}
 
-    .event-header h1 {
-        font-size: 2.5rem;
+
+/* ---- Celulares Pequenos (até 480px) ---- */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
     }
-    .event-header p {
-        font-size: 1.1rem;
+    .hero-content h2 {
+        max-width: 90%;
+        padding: 0 10px;
+    }
+    .about-card {
+        width: 85vw;
+    }
+    .carousel-button {
+        width: 35px;
+        height: 35px;
+        font-size: 1.2rem;
+    }
+    .carousel-button.prev { left: 10px; }
+    .carousel-button.next { right: 10px; }
+    .modal-content {
+        padding: 25px;
+    }
+    .event-header {
+        height: 50vh;
     }
 }

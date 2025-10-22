@@ -5,19 +5,52 @@ document.addEventListener('DOMContentLoaded', function() {
     let stopTeamAutoPlay = () => {};
     let startTeamAutoPlay = () => {};
 
+    // --- INÍCIO DAS ALTERAÇÕES NO MENU ---
+
     // FUNCIONALIDADE DO MENU HAMBURGUER (MOBILE)
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdownContent = document.querySelector('.dropdown-content');
+
     hamburger.addEventListener('click', () => {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
+        // Garante que o dropdown feche se o menu principal fechar
+        if (!navMenu.classList.contains('active') && dropdownContent.classList.contains('show')) {
+            dropdownContent.classList.remove('show');
+        }
     });
+
+    // NOVA LÓGICA PARA CONTROLAR O CLIQUE NO DROPDOWN "EVENTOS"
+    dropdownToggle.addEventListener('click', function(e) {
+        // Apenas executa esta lógica em telas mobile
+        if (window.innerWidth <= 768) {
+            e.preventDefault(); // Impede a navegação do link href="#"
+            dropdownContent.classList.toggle('show'); // Mostra ou esconde o submenu
+        }
+    });
+
+    // LÓGICA DE FECHAMENTO DO MENU AJUSTADA
     document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', (e) => {
-        // Se for um link de dropdown, não fechar o menu
-        if (e.target.closest('.dropdown')) return;
+        // NÃO fechar o menu se o clique for no próprio botão do dropdown
+        // pois ele tem sua própria lógica para abrir/fechar o submenu
+        if (e.target.classList.contains('dropdown-toggle')) {
+            return;
+        }
+
+        // Se for qualquer outro link (inclusive os de dentro do dropdown), fecha tudo.
         hamburger.classList.remove('active');
         navMenu.classList.remove('active');
+
+        // Garante que o submenu também seja fechado
+        if (dropdownContent.classList.contains('show')) {
+            dropdownContent.classList.remove('show');
+        }
     }));
+
+    // --- FIM DAS ALTERAÇÕES NO MENU ---
+
 
     // FUNCIONALIDADE DAS ABAS (TABS)
     const tabs = document.querySelectorAll('.tab-item');
@@ -34,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ATIVAR LINK DO MENU CONFORME A ROLAGEM
     const sections = document.querySelectorAll('main > section');
-    const navLinks = document.querySelectorAll('.nav-link');
+    const navLinks = document.querySelectorAll('.nav-link:not(.dropdown-toggle)'); // Exclui o 'Eventos' da marcação
     const observerOptions = { root: null, rootMargin: '0px', threshold: 0.6 };
     const sectionObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -43,14 +76,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 navLinks.forEach(link => {
                     const href = link.getAttribute('href');
                     if (href) {
-                        link.classList.toggle('active', href.substring(1) === id);
+                        // Limpa o href para comparar com o ID da seção
+                        const cleanHref = href.split('#').pop();
+                        link.classList.toggle('active', cleanHref === id);
                     }
                 });
             }
         });
     }, observerOptions);
     sections.forEach(section => {
-        if (section) sectionObserver.observe(section);
+        if (section && section.id) sectionObserver.observe(section);
     });
 
     // --- LÓGICA DO CARROSSEL 'SOBRE NÓS' (VERSÃO MODERNA) ---
@@ -144,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('touchmove', dragMove, { passive: true });
 
         window.addEventListener('resize', updateCarousel);
-        setTimeout(updateCarousel, 100); 
+        setTimeout(updateCarousel, 100);
     }
 
     // --- LÓGICA DO CARROSSEL DA EQUIPE ---
@@ -153,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const teamSlide = document.getElementById('team-slide');
         const teamPrevBtn = document.getElementById('team-prev');
         const teamNextBtn = document.getElementById('team-next');
-        const originalTeamCards = 4; // Agora temos 4 membros
+        const originalTeamCards = 4;
         const cardWidth = 260;
         let teamCurrentIndex = 0;
         let teamAutoPlayInterval;
