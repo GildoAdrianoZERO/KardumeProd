@@ -194,8 +194,9 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    color: var(--light-color);
-    background-color: var(--dark-color);
+    color: var(--dark-color);
+    background-image: url(src/background.png);
+    background-size: 70px;
     padding: 20px;
 }
 .hero-content h1 {
@@ -213,6 +214,9 @@ body {
     max-width: 40ch;
     margin: 0 auto;
     line-height: 1.4;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.85);
+    color: var(--light-color);
 }
 
 /* SEÇÃO SOBRE COM CARROSSEL */
