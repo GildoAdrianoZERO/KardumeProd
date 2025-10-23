@@ -27,6 +27,18 @@ body {
     background-color: #FFFFFF;
 }
 
+@keyframes click-effect {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -99,9 +111,12 @@ body {
     transition: color 0.3s;
 }
 
-.nav-link:hover,
-.nav-link.active {
+.nav-link:hover {
     color: var(--primary-color);
+}
+
+.nav-link:active {
+    animation: click-effect 0.2s ease-in-out;
 }
 
 .nav-button {
@@ -110,16 +125,15 @@ body {
     padding: 8px 20px;
     border-radius: 20px;
     font-weight: 700;
-    transition: background-color 0.3s, transform 0.2s;
+    transition: transform 0.2s ease-in-out;
 }
 
 .nav-button:hover {
-    background-color: #e69500;
     color: var(--dark-color);
     transform: scale(1.05);
 }
 
-/* ESTILOS DO DROPDOWN */
+/* ESTILOS DO DROPDOWN (DESKTOP) */
 .dropdown {
     position: relative;
     display: inline-block;
@@ -150,21 +164,19 @@ body {
     display: block;
 }
 
-/* CÓDIGO NOVO: Seta para o item de menu Dropdown */
 .dropdown-toggle::after {
     content: '';
     display: inline-block;
     width: 0;
     height: 0;
     margin-left: 8px;
-    vertical-align: 2px; /* Ajuste fino do alinhamento vertical */
+    vertical-align: 2px;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid currentColor; /* Herda a cor do texto do link (branco ou laranja) */
+    border-top: 5px solid currentColor;
     transition: transform 0.3s ease;
 }
 
-/* CÓDIGO NOVO: Gira a seta quando o dropdown está aberto (hover no container) */
 .dropdown:hover .dropdown-toggle::after {
     transform: rotate(180deg);
 }
@@ -182,6 +194,14 @@ body {
     background-color: var(--light-color);
     transition: all 0.3s ease-in-out;
 }
+
+/* ESCONDE O CHECKBOX REAL */
+.dropdown-toggle-checkbox {
+    display: none;
+}
+
+/* O RESTO DO SEU CSS CONTINUA ABAIXO */
+/* ... (hero, about, carousels, modals, etc.) ... */
 
 /* SEÇÃO INÍCIO (HERO) */
 .hero {
@@ -214,12 +234,6 @@ body {
     line-height: 1.4;
     color: var(--dark-color);
 }
-
-/* ... (O restante do seu CSS continua aqui, sem alterações) ... */
-
-/* COLE O RESTANTE DO SEU CSS A PARTIR DAQUI, INCLUINDO A SEÇÃO DE RESPONSIVIDADE */
-
-/* SEÇÃO SOBRE COM CARROSSEL */
 .content-section {
     display: flex;
     align-items: center;
@@ -228,11 +242,9 @@ body {
 .text-content { 
     flex: 1; 
 }
-
 .card-link {
     text-decoration: none;
 }
-
 .carousel-viewport-modern {
     flex: 1.2;
     position: relative;
@@ -325,8 +337,6 @@ body {
 .carousel-button.next {
     right: 25px;
 }
-
-/* SEÇÃO O QUE FAZEMOS (TABS) */
 .tabs {
     display: flex;
     justify-content: center;
@@ -354,8 +364,6 @@ body {
 .tab-content.active { 
     display: block; 
 }
-
-/* SEÇÃO EQUIPE (CARROSSEL) */
 #equipe .container { 
     margin-bottom: 0; 
 }
@@ -390,8 +398,6 @@ body {
     object-fit: cover;
     margin-bottom: 15px;
 }
-
-/* MODAL (POP-UP) DA EQUIPE */
 .modal {
     display: none;
     position: fixed;
@@ -424,6 +430,7 @@ body {
     font-size: 30px;
     font-weight: bold;
     cursor: pointer;
+    z-index: 2011;
 }
 #modal-img {
     width: clamp(150px, 30vw, 200px); 
@@ -440,8 +447,6 @@ body {
     from { opacity: 0; transform: scale(0.95); }
     to { opacity: 1; transform: scale(1); }
 }
-
-/* SEÇÃO RECONHECIMENTO (TIMELINE) */
 .timeline {
     position: relative;
     max-width: 800px;
@@ -487,8 +492,6 @@ body {
     font-weight: 700;
     color: var(--primary-color);
 }
-
-/* SEÇÃO MÍDIA */
 .media-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -507,17 +510,11 @@ body {
     transform: translateY(-6px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
 }
-
-/* SEÇÃO CONTATO E RODAPÉ */
 #contato .container, footer .container { text-align: center; }
 .contact-subtitle { color: #ccc; max-width: 600px; margin: -20px auto 30px; }
 .contact-info { color: #fff; }
 .contact-info p { margin-bottom: 10px; }
 footer { background-color: #111; color: #aaa; padding: 20px 0; }
-
-/* ======================================= */
-/* ESTILOS PARA AS PÁGINAS DE EVENTO */
-/* ======================================= */
 .event-header {
     height: 60vh;
     background-size: cover;
@@ -583,6 +580,7 @@ footer { background-color: #111; color: #aaa; padding: 20px 0; }
     object-fit: cover;
     border-radius: 8px;
     transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
 }
 .gallery img:hover {
     transform: scale(1.05);
@@ -590,7 +588,7 @@ footer { background-color: #111; color: #aaa; padding: 20px 0; }
 }
 .video-container {
     position: relative;
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
     max-width: 100%;
@@ -604,24 +602,61 @@ footer { background-color: #111; color: #aaa; padding: 20px 0; }
     width: 100%;
     height: 100%;
 }
+.modal-content-gallery {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+#gallery-modal-img {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 4px;
+    user-select: none;
+}
+.modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(30, 30, 30, 0.5);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 2010;
+    padding: 15px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    user-select: none;
+}
+.modal-nav:hover {
+    background-color: rgba(30, 30, 30, 0.8);
+}
+.modal-nav.prev {
+    left: 15px;
+}
+.modal-nav.next {
+    right: 15px;
+}
+
 
 /* ======================================= */
 /* RESPONSIVIDADE APRIMORADA */
 /* ======================================= */
-
-/* ---- Telas de Tablet (até 992px) ---- */
 @media (max-width: 992px) {
     .content-section {
         flex-direction: column;
     }
     .carousel-viewport-modern {
         flex: none;
-        width: 100%;
+        width: 60%;
         margin-top: 40px;
     }
 }
 
-/* ---- Telas de Tablet e Celulares Grandes (até 768px) ---- */
 @media (max-width: 768px) {
     .hamburger {
         display: block;
@@ -643,6 +678,7 @@ footer { background-color: #111; color: #aaa; padding: 20px 0; }
         text-align: center;
         transition: left 0.3s ease-in-out;
         padding-top: 70px;
+        gap: 0;
     }
     .nav-menu.active { 
         left: 0; 
@@ -650,30 +686,44 @@ footer { background-color: #111; color: #aaa; padding: 20px 0; }
     .nav-link { 
         padding: 15px 0; 
         font-size: 1.2rem;
+        width: 60%;
     }
+
+    /* --- LÓGICA DO DROPDOWN MOBILE (CSS PURO) --- */
     .dropdown {
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
-   .dropdown-content {
-    position: static;
-    display: none;
-    box-shadow: none;
-    background-color: #333; 
-    border-radius: 0;
-    padding-left: 20px; 
-}
-
-.dropdown-content.show {
-    display: block;
-}
-
+    .dropdown .dropdown-toggle {
+        cursor: pointer;
+        width: 100%;
+    }
     .dropdown:hover .dropdown-content {
-        display: block; 
+        display: none;
+    }
+    .dropdown-content {
+        position: static;
+        display: none; 
+        box-shadow: none;
+        background-color: #333; 
+        width: 100%;
+        padding-left: 20px; 
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out;
+    }
+    .dropdown-toggle-checkbox:checked ~ .dropdown-content {
+        display: block;
+        max-height: 500px;
     }
     .dropdown-content a {
         color: #eee;
         padding: 12px 0;
+        font-size: 1rem;
     }
+    /* --- FIM DA LÓGICA DO DROPDOWN --- */
     
     .nav-menu .nav-button {
         padding: 12px 30px;
@@ -682,7 +732,6 @@ footer { background-color: #111; color: #aaa; padding: 20px 0; }
         font-size: 1.2rem;
         display: inline-block;
     }
-
     .carousel-viewport-modern,
     .team-carousel-viewport {
         -webkit-mask-image: none;
@@ -692,7 +741,6 @@ footer { background-color: #111; color: #aaa; padding: 20px 0; }
         width: 80vw;
         height: 300px;
     }
-
     .timeline::after { 
         left: 20px; 
     }
@@ -711,8 +759,6 @@ footer { background-color: #111; color: #aaa; padding: 20px 0; }
     }
 }
 
-
-/* ---- Celulares Pequenos (até 480px) ---- */
 @media (max-width: 480px) {
     .container {
         padding: 0 15px;

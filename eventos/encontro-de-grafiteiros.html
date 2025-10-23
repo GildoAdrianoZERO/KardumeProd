@@ -3,21 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encontro Cultural - Kardume</title>
     
-    <title>Kardume - Nome do Evento</title>
-
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style.css"> 
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <header class="navbar">
         <div class="container">
-            <a href="../index.html#inicio" class="logo">
-                KARDUME
+            <a href="../index.html" class="logo"> KARDUME
                 <span class="logo-subtitle">arte & transformação social</span>
             </a>
             <nav class="nav-menu">
@@ -25,7 +22,8 @@
                 <a href="../index.html#sobre" class="nav-link">Sobre Nós</a>
                 
                 <div class="dropdown">
-                    <a href="" class="nav-link dropdown-toggle">Eventos</a>
+                    <input type="checkbox" id="dropdown-toggle-checkbox" class="dropdown-toggle-checkbox">
+                    <label for="dropdown-toggle-checkbox" class="nav-link dropdown-toggle">Eventos</label>
                     <div class="dropdown-content">
                         <a href="encontro-cultural.html">Encontro Cultural</a>
                         <a href="oficina-de-arte.html">Oficina de Arte</a>
@@ -38,14 +36,15 @@
                         <a href="celebracao-comunitaria.html">Celebração Comunitária</a>
                     </div>
                 </div>
-
                 <a href="../index.html#fazemos" class="nav-link">O Que Fazemos</a>
                 <a href="../index.html#equipe" class="nav-link">Nossa Equipe</a>
                 <a href="../index.html#reconhecimento" class="nav-link">Reconhecimento</a>
                 <a href="../index.html#contato" class="nav-link nav-button">Contato</a>
             </nav>
             <div class="hamburger">
-                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </div>
         </div>
     </header>
@@ -53,52 +52,124 @@
     <main>
         <section class="event-header" style="background-image: url('../src/Eventos/1.jpg');">
             <div class="event-header-overlay">
-                <h1>Nome do Evento</h1>
-                <p>Um subtítulo ou slogan impactante sobre o que foi o evento.</p>
+                <h1>Encontro Cultural</h1>
+                <p>Celebrando a diversidade e a riqueza da nossa comunidade através da arte.</p>
             </div>
         </section>
 
         <section class="event-content section-padding">
             <div class="container">
+                <p class="event-intro">
+                    O Encontro Cultural da Kardume é um evento vibrante que reúne artistas, músicos, dançarinos e a comunidade local para um dia de celebração. É um espaço para compartilhar talentos, trocar experiências e fortalecer nossos laços culturais.
+                </p>
                 
-                <div class="event-intro">
-                    <p>Aqui vai um parágrafo de introdução forte, resumindo o evento: o que foi, quando aconteceu, o número de participantes e o principal objetivo alcançado.</p>
-                </div>
-
                 <div class="event-story">
-                    <h2>A História do Evento</h2>
-                    <p>Neste espaço, você pode detalhar a narrativa do evento. Comece explicando a motivação, como a ideia surgiu. Descreva as principais atividades que ocorreram, como oficinas, apresentações, debates, etc.</p>
-                    <p>Use múltiplos parágrafos para tornar a leitura mais agradável. Fale sobre as parcerias, os artistas envolvidos e o impacto gerado na comunidade. Detalhes e histórias pessoais são muito bem-vindos aqui.</p>
+                    <h4>Nossa História</h4>
+                    <p>Desde a primeira edição, o encontro tem crescido, tornando-se um marco em nosso calendário. Acreditamos que a arte é uma ferramenta poderosa para a transformação social, e este evento é a prova viva disso.</p>
                     <blockquote>
-                        "Insira aqui uma citação marcante de um participante, organizador ou membro da comunidade. Citações humanizam o texto." - Nome da Pessoa
+                        "A energia que sentimos aqui é contagiante. É mais que um evento, é um movimento."
                     </blockquote>
-                    <p>Conclua falando sobre os resultados, aprendizados e talvez até sobre os planos para futuras edições do evento.</p>
+                    <p>Cada apresentação, cada grafite, cada roda de diálogo contribui para construir uma narrativa coletiva de resistência e alegria.</p>
                 </div>
 
-                <h2 class="gallery-title">Galeria de Fotos</h2>
+                <h3 class="gallery-title">Galeria de Fotos</h3>
                 <div class="gallery">
-                    <img src="/src/Eventos/1.jpg" alt="Descrição da foto 1">
-                    <img src="/src/Eventos/2.jpg" alt="Descrição da foto 1">
-                    <img src="/src/Eventos/3.jpg" alt="Descrição da foto 1">
-                    <img src="/src/Eventos/4.jpg" alt="Descrição da foto 1">
-                    <img src="/src/Eventos/5.jpg" alt="Descrição da foto 1">
-                    <img src="/src/Eventos/6.jpg" alt="Descrição da foto 1">
+                    <img src="../src/Eventos/1.jpg" alt="Descrição da Imagem 1">
+                    <img src="../src/Eventos/2.jpg" alt="Descrição da Imagem 2">
+                    <img src="../src/Eventos/3.jpg" alt="Descrição da Imagem 3">
+                    <img src="../src/Eventos/4.jpg" alt="Descrição da Imagem 4">
+                    <img src="../src/Eventos/5.jpg" alt="Descrição da Imagem 5">
+                    <img src="../src/Eventos/6.jpg" alt="Descrição da Imagem 6">
                 </div>
-
                 <h2 class="gallery-title">Vídeos</h2>
                 <div class="video-container">
                     <iframe width="560" height="315" src="https://www.youtube.com/embed/CODIGO_DO_SEU_VIDEO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
             </div>
         </section>
+    </main>
 
-
-    <footer>
+    <footer class="section-padding bg-dark">
         <div class="container">
             <p>© 2025 KardumeProd. Todos os direitos reservados.</p>
         </div>
     </footer>
 
+
+    <div id="gallery-modal" class="modal">
+        <span class="close-button">&times;</span>
+        <button class="modal-nav prev">&#10094;</button>
+        <div class="modal-content-gallery">
+            <img id="gallery-modal-img" src="" alt="Imagem do Evento em destaque">
+        </div>
+        <button class="modal-nav next">&#10095;</button>
+    </div>
+    
     <script src="../script.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const galleryImages = document.querySelectorAll('.gallery img');
+        const modal = document.getElementById('gallery-modal');
+        
+        if (!modal || galleryImages.length === 0) {
+            return;
+        }
+
+        const modalImg = document.getElementById('gallery-modal-img');
+        const closeModalBtn = modal.querySelector('.close-button');
+        const prevBtn = modal.querySelector('.modal-nav.prev');
+        const nextBtn = modal.querySelector('.modal-nav.next');
+
+        const imageList = Array.from(galleryImages).map(img => img.src);
+        let currentIndex = 0;
+
+        function openModal(index) {
+            currentIndex = index;
+            modalImg.src = imageList[currentIndex];
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function showNextImage() {
+            currentIndex = (currentIndex + 1) % imageList.length;
+            modalImg.src = imageList[currentIndex];
+        }
+
+        function showPrevImage() {
+            currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+            modalImg.src = imageList[currentIndex];
+        }
+
+        galleryImages.forEach((img, index) => {
+            img.addEventListener('click', () => {
+                openModal(index);
+            });
+        });
+
+        closeModalBtn.addEventListener('click', closeModal);
+        nextBtn.addEventListener('click', showNextImage);
+        prevBtn.addEventListener('click', showPrevImage);
+
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (modal.style.display === 'flex') {
+                if (event.key === 'ArrowRight') showNextImage();
+                if (event.key === 'ArrowLeft') showPrevImage();
+                if (event.key === 'Escape') closeModal();
+            }
+        });
+    });
+    </script>
 </body>
 </html>
