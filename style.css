@@ -1,6 +1,6 @@
 /* GERAL E VARIÁVEIS */
 :root {
-    --primary-color: #FFA500; /* Laranja vibrante */
+    --primary-color: #FFA500;
     --secondary-color: #4A4A4A;
     --dark-color: #1E1E1E;
     --light-color: #F4F4F4;
@@ -28,15 +28,9 @@ body {
 }
 
 @keyframes click-effect {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 
 .container {
@@ -60,7 +54,6 @@ body {
 .bg-light { background-color: var(--light-color); }
 .bg-dark { background-color: var(--dark-color); }
 .text-light { color: var(--light-color); }
-
 
 /* NAVEGAÇÃO */
 .navbar {
@@ -163,7 +156,6 @@ body {
 .dropdown:hover .dropdown-content {
     display: block;
 }
-
 .dropdown-toggle::after {
     content: '';
     display: inline-block;
@@ -176,16 +168,13 @@ body {
     border-top: 5px solid currentColor;
     transition: transform 0.3s ease;
 }
-
 .dropdown:hover .dropdown-toggle::after {
     transform: rotate(180deg);
 }
-
 .hamburger {
     display: none;
     cursor: pointer;
 }
-
 .bar {
     display: block;
     width: 25px;
@@ -194,16 +183,11 @@ body {
     background-color: var(--light-color);
     transition: all 0.3s ease-in-out;
 }
-
-/* ESCONDE O CHECKBOX REAL */
 .dropdown-toggle-checkbox {
     display: none;
 }
 
-/* O RESTO DO SEU CSS CONTINUA ABAIXO */
-/* ... (hero, about, carousels, modals, etc.) ... */
-
-/* SEÇÃO INÍCIO (HERO) */
+/* SEÇÃO HERO */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -212,9 +196,6 @@ body {
     text-align: center;
     color: var(--light-color);
     background-color: var(--dark-color);
-    background-image: url(../src/background.png) ;
-    background-size: 60px 60px;
-    background-position: 0 0, 30px 30px;
     padding: 20px;
 }
 .hero-content h1 {
@@ -232,8 +213,9 @@ body {
     max-width: 40ch;
     margin: 0 auto;
     line-height: 1.4;
-    color: var(--dark-color);
 }
+
+/* SEÇÃO SOBRE COM CARROSSEL */
 .content-section {
     display: flex;
     align-items: center;
@@ -241,9 +223,6 @@ body {
 }
 .text-content { 
     flex: 1; 
-}
-.card-link {
-    text-decoration: none;
 }
 .carousel-viewport-modern {
     flex: 1.2;
@@ -269,7 +248,7 @@ body {
 }
 .about-card {
     width: 300px;
-    height: 350px;
+    height: 380px; /* Altura corrigida */
     flex-shrink: 0;
     position: relative;
     border-radius: 12px;
@@ -296,18 +275,20 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 20px;
+    padding: 25px 20px 20px; /* Padding corrigido */
     color: white;
-    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
 }
 .card-text h5 {
     font-family: var(--font-header);
     font-size: 1.2rem;
     margin-bottom: 5px;
+    line-height: 1.2;
 }
 .card-text p {
     font-size: 0.9rem;
     line-height: 1.4;
+    word-break: break-word;
 }
 .carousel-button {
     position: absolute;
@@ -331,12 +312,10 @@ body {
 .carousel-button:hover {
     background-color: var(--primary-color);
 }
-.carousel-button.prev {
-    left: 25px;
-}
-.carousel-button.next {
-    right: 25px;
-}
+.carousel-button.prev { left: 25px; }
+.carousel-button.next { right: 25px; }
+
+/* OUTRAS SEÇÕES */
 .tabs {
     display: flex;
     justify-content: center;
@@ -643,16 +622,14 @@ footer { background-color: #111; color: #aaa; padding: 20px 0; }
 }
 
 
-/* ======================================= */
-/* RESPONSIVIDADE APRIMORADA */
-/* ======================================= */
+/* RESPONSIVIDADE */
 @media (max-width: 992px) {
     .content-section {
         flex-direction: column;
     }
     .carousel-viewport-modern {
         flex: none;
-        width: 60%;
+        width: 100%;
         margin-top: 40px;
     }
 }
@@ -688,8 +665,6 @@ footer { background-color: #111; color: #aaa; padding: 20px 0; }
         font-size: 1.2rem;
         width: 60%;
     }
-
-    /* --- LÓGICA DO DROPDOWN MOBILE (CSS PURO) --- */
     .dropdown {
         width: 100%;
         display: flex;
@@ -723,8 +698,6 @@ footer { background-color: #111; color: #aaa; padding: 20px 0; }
         padding: 12px 0;
         font-size: 1rem;
     }
-    /* --- FIM DA LÓGICA DO DROPDOWN --- */
-    
     .nav-menu .nav-button {
         padding: 12px 30px;
         border-radius: 30px;
