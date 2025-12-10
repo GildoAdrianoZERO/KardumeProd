@@ -226,6 +226,7 @@ body {
     gap: 50px;
 }
 .text-content { 
+    text-align: justify;
     flex: 1; 
 }
 .carousel-viewport-modern {
