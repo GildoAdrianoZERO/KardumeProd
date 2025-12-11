@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja Kardume - Vista Essa Causa</title>
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../style.css"> <link rel="stylesheet" href="shop.css">    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&family=Roboto:wght@400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="container">
+            <a href="../index.html#inicio" class="logo">
+                KARDUME
+                <span class="logo-subtitle">arte & transformação social</span>
+            </a>
+            
+            <nav class="nav-menu">
+                <a href="../index.html#inicio" class="nav-link">Início</a>
+                <a href="../index.html#sobre" class="nav-link">Sobre Nós</a>
+                
+                <div class="dropdown">
+                    <input type="checkbox" id="dropdown-toggle-checkbox" class="dropdown-toggle-checkbox">
+                    <label for="dropdown-toggle-checkbox" class="nav-link dropdown-toggle">Eventos</label>
+                    <div class="dropdown-content">
+                        <a href="../eventos/ocupa-favela-paulista.html">Ocupa Favela Paulista</a>
+                        <a href="../eventos/oficina-de-arte.html">Oficina de Arte</a>
+                        <a href="../eventos/roda-de-dialogo.html">Roda de Diálogo</a>
+                        <a href="../eventos/apresentacao-musical.html">Apresentação Musical</a>
+                        <a href="../eventos/mural-coletivo.html">Mural Coletivo</a>
+                        <a href="../eventos/exposicao-de-trabalhos.html">Exposição de Trabalhos</a>
+                        <a href="../eventos/cultura-popular.html">Cultura Popular</a>
+                        <a href="../eventos/encontro-de-grafiteiros.html">Encontro de Grafiteiros</a>
+                        <a href="../eventos/celebracao-comunitaria.html">Celebração Comunitária</a>
+                    </div>
+                </div>
+                
+                <a href="../index.html#fazemos" class="nav-link">O Que Fazemos</a>
+                <a href="../index.html#equipe" class="nav-link">Nossa Equipe</a>
+                <a href="../index.html#reconhecimento" class="nav-link">Reconhecimento</a>
+                
+                <a href="shop.html" class="nav-link active cart-link" aria-label="Ir para a Loja">
+                    <span class="material-icons">shopping_cart</span>
+                </a>
+                
+                <a href="../index.html#contato" class="nav-link nav-button">Contato</a>
+            </nav>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="section-padding" style="padding-top: 100px;">
+            <div class="container">
+                <h1 class="section-title">🛍️ Nossa Marca: Vista Essa Causa</h1>
+                <p style="text-align: center; max-width: 700px; margin: -20px auto 40px;">
+                    Adquira produtos exclusivos de nossos artistas e ajude a financiar nossos projetos de arte e
+                    transformação social na Colônia de Pescadores Z2.
+                </p>
+
+                <div class="shop-layout">
+
+                    <div class="product-grid" id="product-grid">
+                        </div>
+
+                    <aside class="cart-sidebar" id="cart-sidebar">
+                        <h3>Meu Pedido</h3>
+                        
+                        <div id="cart-items">
+                            <p class="cart-empty-message">O carrinho está vazio.</p>
+                        </div>
+                        
+                        <div class="cart-summary">
+                            <p>Subtotal: <span id="cart-subtotal">R$ 0,00</span></p>
+                            <p class="cart-shipping-note">Frete e pagamento a combinar via WhatsApp.</p>
+                        </div>
+                        <button id="checkout-btn" class="nav-button" disabled>Finalizar Pedido (WhatsApp)</button>
+                    </aside>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="product-modal" class="product-modal">
+        <div class="product-modal-content">
+            <span class="close-product-modal">&times;</span>
+            
+            <div class="modal-image-area">
+                <button class="modal-nav-btn prev" onclick="changeModalImage('prev')">&#10094;</button>
+                <img id="product-modal-img" src="" alt="Detalhe do produto">
+                <button class="modal-nav-btn next" onclick="changeModalImage('next')">&#10095;</button>
+            </div>
+            
+            <div class="modal-info-area">
+                <h2 id="product-modal-title">Nome do Produto</h2>
+                <p id="product-modal-desc">Descrição do produto.</p>
+                <div class="price" id="product-modal-price">R$ 0,00</div>
+                
+                <button class="add-to-cart-btn" onclick="addToCart(currentModalProduct.id); document.getElementById('product-modal').style.display='none'">
+                    Adicionar ao Carrinho
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="section-padding bg-dark">
+        <div class="container">
+            <p>© 2025 KardumeProd. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script> <script src="shop.js"></script>    </body>
+
+</html>

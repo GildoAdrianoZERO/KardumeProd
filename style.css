@@ -68,6 +68,10 @@ body {
     z-index: 1000;
 }
 
+#shorp_car{
+    padding-top: 10px;
+}
+
 .navbar .container {
     display: flex;
     justify-content: space-between;
