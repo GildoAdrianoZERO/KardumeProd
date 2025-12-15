@@ -93,12 +93,12 @@ document.addEventListener('DOMContentLoaded', function() {
             name: "Print Ilustração Exclusiva", 
             colors: null, 
             // Lembre-se de colocar a imagem correta aqui
-            images: ["../src/produtos/prod1.png"], 
+            images: ["../src/produtos/prod10.png", "../src/produtos/prod11.png"],
             desc: "Impressão Fine Art em papel couchê de alta gramatura.",
             variants: [
                 { label: "A5 (15x21cm)", price: 15.00 },
                 { label: "A4 (21x30cm)", price: 25.00 },
-                { label: "A3 (30x42cm)", price: 40.00 }
+                { label: "A3 (30x42cm)", price: 35.00 }
             ]
         }
     ];
