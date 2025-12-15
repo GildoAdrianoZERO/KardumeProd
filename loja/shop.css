@@ -20,6 +20,7 @@
     transition: transform 0.3s ease;
     text-align: center;
     position: relative;
+    padding-bottom: 20px;
 }
 
 .product-card:hover {
@@ -27,7 +28,7 @@
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Container da Imagem no Card (Carrossel Mini) */
+/* Container da Imagem no Card */
 .product-image-container {
     position: relative;
     width: 100%;
@@ -44,7 +45,7 @@
     transition: transform 0.3s ease;
 }
 
-/* Botões de seta no card (aparecem no hover) */
+/* Botões de seta no card */
 .card-nav-btn {
     position: absolute;
     top: 50%;
@@ -61,7 +62,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0; /* Escondido por padrão */
+    opacity: 0;
     transition: opacity 0.3s, background-color 0.3s;
     user-select: none;
     z-index: 5;
@@ -74,21 +75,63 @@
 
 /* Informações do Card */
 .product-info {
-    padding: 20px 15px;
+    padding: 20px 15px 0 15px;
 }
 
 .product-info h4 {
     font-family: var(--font-header);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     margin-bottom: 5px;
     cursor: pointer;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .product-info p.price {
     font-size: 1.4rem;
     font-weight: 700;
     color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+/* --- SELETORES DE OPÇÃO (COR E TAMANHO) --- */
+.product-options {
+    text-align: left;
+    padding: 0 15px;
     margin-bottom: 15px;
+}
+
+.option-group {
+    margin-bottom: 10px;
+}
+
+.option-group label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #555;
+    display: block;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+}
+
+.option-select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.option-select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    background-color: #fff;
 }
 
 .add-to-cart-btn {
@@ -99,6 +142,8 @@
     border-radius: 20px;
     cursor: pointer;
     font-weight: 500;
+    width: 90%;
+    margin-bottom: 10px;
     transition: background-color 0.3s, transform 0.1s;
 }
 
@@ -135,10 +180,13 @@
     margin-bottom: 15px;
     padding-bottom: 15px;
     border-bottom: 1px dashed #ccc;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
-.item-name { font-weight: 700; }
+.item-info { line-height: 1.4; }
+.item-name { font-weight: 700; display: block; margin-bottom: 2px;}
+.item-details { font-size: 0.8rem; color: #666; }
+
 .cart-empty-message { font-style: italic; color: #888; text-align: center; padding: 20px 0; }
 .remove-btn { background: none; border: none; color: red; cursor: pointer; font-size: 1.2rem; }
 
@@ -239,8 +287,7 @@
 .modal-nav-btn.prev { left: 10px; }
 .modal-nav-btn.next { right: 10px; }
 
-
-/* --- RESPONSIVIDADE --- */
+/* RESPONSIVIDADE */
 @media (max-width: 992px) {
     .shop-layout { flex-direction: column; }
     .cart-sidebar { min-width: 100%; position: static; max-height: none; }
