@@ -1,4 +1,8 @@
-/* --- LAYOUT DA LOJA --- */
+/* =========================================
+   ESTILOS GERAIS DA LOJA
+   ========================================= */
+
+/* --- LAYOUT PRINCIPAL --- */
 .shop-layout {
     display: flex;
     gap: 30px;
@@ -11,7 +15,9 @@
     gap: 30px;
 }
 
-/* --- CARD DO PRODUTO --- */
+/* =========================================
+   CARD DO PRODUTO (VITRINE)
+   ========================================= */
 .product-card {
     background-color: var(--light-color);
     border-radius: 12px;
@@ -45,7 +51,7 @@
     transition: transform 0.3s ease;
 }
 
-/* Botões de seta no card */
+/* Botões de seta no card (aparecem ao passar o mouse) */
 .card-nav-btn {
     position: absolute;
     top: 50%;
@@ -134,6 +140,7 @@
     background-color: #fff;
 }
 
+/* Botão Adicionar ao Carrinho */
 .add-to-cart-btn {
     background-color: var(--dark-color);
     color: white;
@@ -144,6 +151,7 @@
     font-weight: 500;
     width: 90%;
     margin-bottom: 10px;
+    margin-top: 10px;
     transition: background-color 0.3s, transform 0.1s;
 }
 
@@ -151,7 +159,9 @@
 .add-to-cart-btn:active { transform: scale(0.98); }
 
 
-/* --- CARRINHO LATERAL --- */
+/* =========================================
+   CARRINHO LATERAL (SIDEBAR)
+   ========================================= */
 .cart-sidebar {
     flex: 1;
     min-width: 280px;
@@ -199,7 +209,9 @@
 #checkout-btn:disabled { background-color: #aaa; cursor: not-allowed; }
 
 
-/* --- MODAL DE ZOOM --- */
+/* =========================================
+   MODAL DE ZOOM (JANELA POP-UP)
+   ========================================= */
 .product-modal {
     display: none;
     position: fixed;
@@ -260,6 +272,7 @@
 .modal-info-area p { color: #666; margin-bottom: 20px; line-height: 1.6; }
 .modal-info-area .price { font-size: 2rem; color: var(--primary-color); font-weight: 700; margin-bottom: 30px; }
 
+/* Botão Fechar (Desktop Padrão) */
 .close-product-modal {
     position: absolute;
     top: 15px;
@@ -271,6 +284,7 @@
     z-index: 10;
 }
 
+/* Setas de Navegação do Modal */
 .modal-nav-btn {
     position: absolute;
     top: 50%;
@@ -287,19 +301,88 @@
 .modal-nav-btn.prev { left: 10px; }
 .modal-nav-btn.next { right: 10px; }
 
-/* RESPONSIVIDADE */
+
+/* =========================================
+   RESPONSIVIDADE (MOBILE E TABLET)
+   ========================================= */
+
 @media (max-width: 992px) {
     .shop-layout { flex-direction: column; }
     .cart-sidebar { min-width: 100%; position: static; max-height: none; }
 }
 
+/* --- CORREÇÃO DO BUG MOBILE (MODAL) --- */
 @media (max-width: 768px) {
-    .product-modal-content { flex-direction: column; max-height: 90vh; overflow-y: auto; }
-    .modal-image-area { flex: none; height: 300px; }
-    .modal-info-area { padding: 20px; }
-    .close-product-modal {
-        color: white; top: 10px; right: 15px;
-        background: rgba(0,0,0,0.5); border-radius: 50%; width: 40px; height: 40px;
-        display: flex; justify-content: center; align-items: center;
+    /* 1. Ajuste da Janela do Modal */
+    .product-modal-content {
+        flex-direction: column; /* Coloca imagem em cima e texto embaixo */
+        width: 90%;             /* Largura segura */
+        max-height: 90vh;       /* Altura máxima segura */
+        overflow-y: auto;       /* Permite rolar se for muito grande */
+        position: relative;
     }
+
+    /* 2. Área da Imagem */
+    .modal-image-area {
+        flex: none;
+        width: 100%;
+        height: 300px;          /* Altura fixa para não estourar */
+        background-color: #f0f0f0;
+        min-height: auto;       /* Reseta o min-height do desktop */
+    }
+
+    .modal-image-area img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;    /* Garante que a imagem cabe inteira */
+        max-height: none;       /* Reseta max-height do desktop */
+    }
+
+    /* 3. Área de Informações */
+    .modal-info-area {
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .modal-info-area h2 {
+        font-size: 1.5rem;
+        margin-top: 10px;
+    }
+
+    /* 4. Botão Fechar (X) - Fundo branco para garantir visibilidade */
+    .close-product-modal {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #333;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        z-index: 101; /* Fica acima de tudo */
+    }
+
+    /* 5. Ajuste das setas no mobile */
+    .modal-nav-btn {
+        background-color: rgba(0, 0, 0, 0.3);
+        padding: 8px;
+        font-size: 1.5rem;
+    }
+    .modal-nav-btn.prev { left: 5px; }
+    .modal-nav-btn.next { right: 5px; }
+
+    #product-modal-price{
+        font-size: 25px;
+    }
+
+    #product-modal-title{
+        font-size: 20px;
+    }
+
 }
+

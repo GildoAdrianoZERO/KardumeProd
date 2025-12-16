@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- 1. CONFIGURAÇÃO DOS PRODUTOS ---
     const products = [
-        // PRODUTO 1 - Camiseta (Preços iguais)
+        // PRODUTO 1 - Camiseta
         { 
             id: 1, 
             name: "Camiseta KARDUME - Recostruir", 
@@ -87,18 +87,17 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         
-        // --- EXEMPLO DE ARTE (Preços diferentes por tamanho) ---
+        // --- PRODUTO 7: ARTE (Preços diferentes por tamanho) ---
         { 
             id: 7, 
             name: "Print Ilustração Exclusiva", 
             colors: null, 
-            // Lembre-se de colocar a imagem correta aqui
-            images: ["../src/produtos/prod10.png", "../src/produtos/prod11.png"],
+            images: ["../src/produtos/prod1.png"], // <--- Use a imagem correta da arte
             desc: "Impressão Fine Art em papel couchê de alta gramatura.",
             variants: [
                 { label: "A5 (15x21cm)", price: 15.00 },
-                { label: "A4 (21x30cm)", price: 25.00 },
-                { label: "A3 (30x42cm)", price: 35.00 }
+                { label: "A4 (21x30cm)", price: 25.00 }, // Preço diferente
+                { label: "A3 (30x42cm)", price: 40.00 }  // Preço diferente
             ]
         }
     ];
@@ -115,6 +114,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalTitle = document.getElementById('product-modal-title');
     const modalDesc = document.getElementById('product-modal-desc');
     const modalPrice = document.getElementById('product-modal-price');
+    const modalOptionsContainer = document.getElementById('modal-product-options');
+    const modalAddBtn = document.getElementById('modal-add-btn');
     const closeModalBtn = document.querySelector('.close-product-modal');
     
     let cart = JSON.parse(localStorage.getItem('kardumeCart')) || [];
@@ -122,88 +123,150 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentModalImageIndex = 0;
     const cardImageIndices = {}; 
     
-    // --- 3. RENDERIZAÇÃO DE PRODUTOS ---
+    // --- 3. RENDERIZAÇÃO DE PRODUTOS (VITRINE) ---
     function renderProducts() {
         if (!productGrid) return;
         
         productGrid.innerHTML = products.map(product => {
             const showArrows = product.images.length > 1 ? '' : 'style="display:none;"';
-            
-            // GERA O SELETOR DE CORES
-            let colorHtml = '';
-            if (product.colors && product.colors.length > 0) {
-                colorHtml = `
-                    <div class="option-group">
-                        <label>Cor:</label>
-                        <select id="color-select-${product.id}" class="option-select">
-                            ${product.colors.map(c => `<option value="${c}">${c}</option>`).join('')}
-                        </select>
-                    </div>`;
-            }
-
-            // GERA O SELETOR DE TAMANHOS/VARIANTES (ALTERADO AQUI)
-            let variantHtml = '';
-            if (product.variants && product.variants.length > 0) {
-                variantHtml = `
-                    <div class="option-group">
-                        <label>Tamanho/Modelo:</label>
-                        <select id="variant-select-${product.id}" class="option-select" onchange="updatePriceDisplay(${product.id}, this.value)">
-                            ${product.variants.map((v, index) => {
-                                // REMOVI A PARTE QUE MOSTRAVA (+ R$ XX,XX). AGORA MOSTRA SÓ O LABEL.
-                                return `<option value="${index}">${v.label}</option>`;
-                            }).join('')}
-                        </select>
-                    </div>`;
-            }
+            const displayPrice = product.variants[0].price.toFixed(2).replace('.', ',');
 
             return `
             <div class="product-card" id="product-${product.id}">
                 <div class="product-image-container">
                     <img src="${product.images[0]}" alt="${product.name}" class="product-main-img" onclick="openModal(${product.id})">
-                    
                     <button class="card-nav-btn prev" ${showArrows} onclick="changeCardImage(${product.id}, 'prev')">&#10094;</button>
                     <button class="card-nav-btn next" ${showArrows} onclick="changeCardImage(${product.id}, 'next')">&#10095;</button>
                 </div>
-                
                 <div class="product-info">
                     <h4 onclick="openModal(${product.id})">${product.name}</h4>
+                    <p class="price">A partir de R$ ${displayPrice}</p>
                     
-                    <p class="price" id="price-display-${product.id}">R$ ${product.variants[0].price.toFixed(2).replace('.', ',')}</p>
-                    
-                    <div class="product-options">
-                        ${colorHtml}
-                        ${variantHtml}
-                    </div>
-
-                    <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
-                        Adicionar ao Carrinho
+                    <button class="add-to-cart-btn" onclick="openModal(${product.id})">
+                        Ver Opções / Comprar
                     </button>
                 </div>
             </div>
         `}).join('');
     }
 
-    // --- 4. FUNÇÃO QUE ATUALIZA O PREÇO NA TELA ---
-    window.updatePriceDisplay = function(productId, variantIndex) {
+    // --- 4. ABRIR MODAL E GERAR OPÇÕES ---
+    window.openModal = function(productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
+        currentModalProduct = product;
+        currentModalImageIndex = 0; 
         
-        const selectedVariant = product.variants[variantIndex];
-        const priceElement = document.getElementById(`price-display-${productId}`);
+        // 1. Preenche dados básicos
+        modalImg.src = product.images[0];
+        modalTitle.innerText = product.name;
+        modalDesc.innerText = product.desc;
+        modalPrice.innerText = `R$ ${product.variants[0].price.toFixed(2).replace('.', ',')}`;
         
-        if (priceElement && selectedVariant) {
-            // Atualiza o texto do preço principal com o preço do tamanho escolhido
-            priceElement.innerText = `R$ ${selectedVariant.price.toFixed(2).replace('.', ',')}`;
+        // 2. Controla setas da imagem
+        const modalArrows = document.querySelectorAll('.modal-nav-btn');
+        modalArrows.forEach(btn => btn.style.display = product.images.length > 1 ? 'block' : 'none');
+
+        // 3. GERA OS INPUTS DENTRO DO MODAL
+        let htmlOptions = '';
+
+        // Seletor de Cor
+        if (product.colors && product.colors.length > 0) {
+            htmlOptions += `
+                <div class="option-group">
+                    <label>Cor:</label>
+                    <select id="modal-color-select" class="option-select">
+                        ${product.colors.map(c => `<option value="${c}">${c}</option>`).join('')}
+                    </select>
+                </div>`;
+        } else {
+            htmlOptions += `<input type="hidden" id="modal-color-select" value="">`;
         }
+
+        // Seletor de Tamanho (Com atualização de preço)
+        if (product.variants && product.variants.length > 0) {
+            htmlOptions += `
+                <div class="option-group">
+                    <label>Tamanho/Modelo:</label>
+                    <select id="modal-variant-select" class="option-select" onchange="updateModalPrice()">
+                        ${product.variants.map((v, index) => `<option value="${index}">${v.label}</option>`).join('')}
+                    </select>
+                </div>`;
+        }
+
+        modalOptionsContainer.innerHTML = htmlOptions;
+
+        // 4. Configura o botão "Adicionar" do Modal
+        modalAddBtn.onclick = function() {
+            addToCartFromModal();
+        };
+
+        productModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    };
+
+    // --- 5. ATUALIZAR PREÇO NO MODAL (QUANDO MUDA TAMANHO) ---
+    window.updateModalPrice = function() {
+        if (!currentModalProduct) return;
+        const select = document.getElementById('modal-variant-select');
+        const index = select.value;
+        const variant = currentModalProduct.variants[index];
+        
+        // Atualiza o preço grande no topo do modal
+        modalPrice.innerText = `R$ ${variant.price.toFixed(2).replace('.', ',')}`;
     }
 
-    // --- 5. LÓGICA DO CARROSSEL ---
+    // --- 6. ADICIONAR AO CARRINHO (DO MODAL) ---
+    window.addToCartFromModal = function() {
+        if (!currentModalProduct) return;
+
+        // Pega valores selecionados dentro do modal
+        const colorInput = document.getElementById('modal-color-select');
+        const selectedColor = colorInput ? colorInput.value : null;
+
+        const variantInput = document.getElementById('modal-variant-select');
+        const variantIndex = variantInput ? variantInput.value : 0;
+        const selectedVariant = currentModalProduct.variants[variantIndex];
+
+        // Cria item
+        let finalName = currentModalProduct.name;
+        let details = "";
+        if (selectedColor) details += `${selectedColor}`;
+        if (selectedColor && selectedVariant) details += " / ";
+        if (selectedVariant) details += `${selectedVariant.label}`;
+
+        const uniqueId = `${currentModalProduct.id}-${selectedColor || 'sc'}-${selectedVariant.label}`;
+
+        // Adiciona ao array
+        const existingItem = cart.find(item => item.uniqueId === uniqueId);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ 
+                uniqueId: uniqueId,
+                id: currentModalProduct.id, 
+                name: finalName,
+                details: details,
+                price: selectedVariant.price, // Preço correto do tamanho escolhido
+                quantity: 1 
+            });
+        }
+
+        // Renderiza Carrinho e Fecha Modal
+        renderCart();
+        closeModal();
+    };
+
+    function closeModal() {
+        productModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    // --- 7. CARROSSEL DE IMAGENS ---
     window.changeCardImage = function(productId, direction) {
         const product = products.find(p => p.id === productId);
         if (!product || product.images.length <= 1) return;
-
         if (cardImageIndices[productId] === undefined) cardImageIndices[productId] = 0;
-
         if (direction === 'next') {
             cardImageIndices[productId] = (cardImageIndices[productId] + 1) % product.images.length;
         } else {
@@ -212,57 +275,24 @@ document.addEventListener('DOMContentLoaded', function() {
         const imgElement = document.querySelector(`#product-${productId} .product-main-img`);
         if (imgElement) imgElement.src = product.images[cardImageIndices[productId]];
     };
-
-    // --- 6. ADICIONAR AO CARRINHO ---
-    window.addToCart = function(productId) {
-        const product = products.find(p => p.id === productId);
-        if (!product) return;
-
-        const colorSelect = document.getElementById(`color-select-${productId}`);
-        const selectedColor = colorSelect ? colorSelect.value : null;
-
-        const variantSelect = document.getElementById(`variant-select-${productId}`);
-        const variantIndex = variantSelect ? variantSelect.value : 0;
-        const selectedVariant = product.variants[variantIndex];
-
-        let finalName = product.name;
-        let details = "";
-        
-        if (selectedColor) details += `${selectedColor}`;
-        if (selectedColor && selectedVariant) details += " / ";
-        if (selectedVariant) details += `${selectedVariant.label}`;
-
-        const uniqueId = `${product.id}-${selectedColor || 'sc'}-${selectedVariant.label}`;
-
-        const existingItem = cart.find(item => item.uniqueId === uniqueId);
-        
-        if (existingItem) {
-            existingItem.quantity += 1;
+    
+    window.changeModalImage = function(direction) {
+        if (!currentModalProduct || currentModalProduct.images.length <= 1) return;
+        if (direction === 'next') {
+            currentModalImageIndex = (currentModalImageIndex + 1) % currentModalProduct.images.length;
         } else {
-            cart.push({ 
-                uniqueId: uniqueId,
-                id: product.id, 
-                name: finalName,
-                details: details,
-                price: selectedVariant.price,
-                quantity: 1 
-            });
+            currentModalImageIndex = (currentModalImageIndex - 1 + currentModalProduct.images.length) % currentModalProduct.images.length;
         }
-        renderCart();
-        
-        const btn = document.querySelector(`#product-${productId} .add-to-cart-btn`);
-        if(btn) {
-            const originalText = btn.innerText;
-            btn.innerText = "Adicionado!";
-            btn.style.backgroundColor = "#28a745";
-            setTimeout(() => {
-                btn.innerText = originalText;
-                btn.style.backgroundColor = ""; 
-            }, 1000);
-        }
-    }
+        modalImg.src = currentModalProduct.images[currentModalImageIndex];
+    };
 
-    // --- 7. REMOVER DO CARRINHO ---
+    // --- 8. EVENTOS DE FECHAMENTO ---
+    if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+    window.addEventListener('click', (e) => {
+        if (e.target === productModal) closeModal();
+    });
+
+    // --- 9. CARRINHO (REMOVER/RENDERIZAR/FINALIZAR) ---
     window.removeFromCart = function(uniqueId) {
         const itemIndex = cart.findIndex(item => item.uniqueId === uniqueId);
         if (itemIndex > -1) {
@@ -306,51 +336,6 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('kardumeCart', JSON.stringify(cart));
     }
 
-    // --- 8. MODAL ---
-    window.openModal = function(productId) {
-        const product = products.find(p => p.id === productId);
-        if (!product) return;
-        currentModalProduct = product;
-        currentModalImageIndex = 0; 
-        
-        modalImg.src = product.images[0];
-        modalTitle.innerText = product.name;
-        modalDesc.innerText = product.desc;
-        // Mostra "A partir de"
-        modalPrice.innerText = `A partir de R$ ${product.variants[0].price.toFixed(2).replace('.', ',')}`;
-        
-        const modalArrows = document.querySelectorAll('.modal-nav-btn');
-        modalArrows.forEach(btn => btn.style.display = product.images.length > 1 ? 'block' : 'none');
-        
-        productModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    };
-    
-    window.changeModalImage = function(direction) {
-        if (!currentModalProduct || currentModalProduct.images.length <= 1) return;
-        if (direction === 'next') {
-            currentModalImageIndex = (currentModalImageIndex + 1) % currentModalProduct.images.length;
-        } else {
-            currentModalImageIndex = (currentModalImageIndex - 1 + currentModalProduct.images.length) % currentModalProduct.images.length;
-        }
-        modalImg.src = currentModalProduct.images[currentModalImageIndex];
-    };
-
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', () => {
-            productModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        });
-    }
-    
-    window.addEventListener('click', (e) => {
-        if (e.target === productModal) {
-            productModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-    });
-
-    // --- 9. FINALIZAR PEDIDO ---
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', finalizeOrder);
     }
