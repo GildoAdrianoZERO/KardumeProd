@@ -551,6 +551,16 @@ footer { background-color: #111; color: #aaa; padding: 20px 0; }
     font-size: 1.2rem;
     color: #555;
 }
+
+.cita {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 20px;
+    margin: 30px 0;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: #eae4e4;
+}
+
 .gallery-title {
     text-align: center;
     font-family: var(--font-header);
@@ -643,7 +653,7 @@ footer { background-color: #111; color: #aaa; padding: 20px 0; }
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1px) {
     .hamburger {
         display: block;
         z-index: 1001;
